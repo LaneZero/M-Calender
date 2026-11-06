@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "M Calendar | ام کالندر",
+  "short_name": "M Calendar",
+  "description": "Bilingual recurring task tracker with Persian and Gregorian calendars",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#101b2e",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
