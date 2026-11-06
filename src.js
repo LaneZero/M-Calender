@@ -2,7 +2,7 @@
 const $ = id => document.getElementById(id);
 // Retain the old storage key so existing users keep their tasks after rebranding.
 const STORAGE = 'ritmo-data-v1';
-const APP_VERSION = 'v0.1.4';
+const APP_VERSION = 'v0.1.5';
 let activeView = 'tasks';
 const today = () => localISO(new Date());
 function localISO(date) { return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; }
@@ -67,6 +67,40 @@ const helpCopy = {
   ['7. Back up your data','Use “Export backup” to save a JSON file, or “Import backup” to restore it. Import replaces current data.']
  ]
 };
+// Donation destinations are public, user-provided receiving addresses.
+// No wallet connection, blockchain API, or payment processing occurs.
+const donationWallets = Object.freeze([
+ {id:'btc',symbol:'₿',name:'Bitcoin',network:'Bitcoin',address:'bc1q5tl36qpk27hf7upl8l753xa0gcm57adrvmwgkz'},
+ {id:'usdt',symbol:'₮',name:'Tether (USDT)',network:'TRON / TRC20',address:'TA5pibChqS7CeHiDvfP7V3uQVMynk6SxLq'},
+ {id:'evm',symbol:'Ξ',name:'EVM',network:'Ethereum · BNB Smart Chain · Polygon',address:'0x6634E26BA0e323182B7A9a89278E9a7BbCa9aF70'},
+ {id:'sol',symbol:'◎',name:'Solana',network:'Solana',address:'91kuBFEZAnRk8ixsuzAQnAVvtzLAsQpPFRsfe285ZKUC'}
+]);
+const donateText={
+ fa:{network:'شبکه',copy:'کپی آدرس',copied:'کپی شد ✓',copyFail:'کپی خودکار ممکن نشد؛ آدرس را به‌صورت دستی انتخاب و کپی کن.',warning:'⚠️ قبل از انتقال رمزارز، آدرس کامل کیف پول و شبکه بلاکچین را بررسی کن. تراکنش‌های رمزارزی معمولاً برگشت‌پذیر نیستند.',disclaimer:'M Calendar به کیف پول متصل نمی‌شود، پرداختی پردازش یا انتقالی آغاز نمی‌کند، تراکنش‌ها را ردیابی نمی‌کند و اطلاعات مالی جمع‌آوری نمی‌کند.',thanks:'حمایت کاملاً اختیاری است. از همراهی شما سپاسگزاریم.'},
+ en:{network:'Network',copy:'Copy address',copied:'Copied ✓',copyFail:'Automatic copy failed; select and copy the address manually.',warning:'⚠️ Always verify the complete wallet address and blockchain network before sending cryptocurrency. Cryptocurrency transactions generally cannot be reversed.',disclaimer:'M Calendar does not connect to wallets, process payments, initiate transfers, monitor transactions, or collect financial information.',thanks:'Donations are optional. Thank you for supporting the project.'}
+};
+function renderDonation(){
+ const host=$('donate-details'),i18n=donateText[state.lang];host.replaceChildren();
+ const cards=node('div','wallet-grid');
+ for(const wallet of donationWallets){
+  const card=node('article','wallet-card');
+  const header=node('div','wallet-heading');
+  const logo=node('span',`wallet-logo wallet-${wallet.id}`,wallet.symbol);logo.setAttribute('aria-hidden','true');
+  const title=node('div','wallet-title');title.append(node('h2','',wallet.name),node('p','',`${i18n.network}: ${wallet.network}`));header.append(logo,title);
+  const address=node('code','wallet-address',wallet.address);address.dir='ltr';address.tabIndex=0;
+  const copy=node('button','secondary wallet-copy',i18n.copy);copy.type='button';copy.dataset.wallet=wallet.id;
+  copy.setAttribute('aria-label',`${i18n.copy}: ${wallet.name}`);
+  card.append(header,address,copy);cards.append(card);
+ }
+ host.append(cards,node('p','info-note donation-warning',i18n.warning),node('p','info-note',i18n.disclaimer),node('p','donate-thanks',i18n.thanks));
+}
+// Copy is handled via delegation so re-rendering for language switches stays safe.
+$('donate-details').addEventListener('click',async e=>{
+ const button=e.target.closest('button[data-wallet]');if(!button)return;
+ const wallet=donationWallets.find(w=>w.id===button.dataset.wallet);if(!wallet)return;
+ try{await navigator.clipboard.writeText(wallet.address);button.textContent=donateText[state.lang].copied;}
+ catch{button.closest('.wallet-card').querySelector('.wallet-address').focus();alert(donateText[state.lang].copyFail);}
+});
 const helpWarnings={
  fa:['حریم خصوصی: اطلاعات فقط در حافظه همین مرورگر هستند. پاک‌کردن داده‌های سایت یا تغییر دستگاه می‌تواند آن‌ها را از بین ببرد؛ مرتب نسخه پشتیبان بگیر.','اعلان پس‌زمینه و اتصال مستقیم به Google Calendar در این نسخه وجود ندارد.','برای زمان‌بندی مصرف دارو، همواره دستور پزشک را ملاک قرار بده و زمان مصرف را خودسرانه تغییر نده.'],
  en:['Privacy: data is saved only in this browser. Clearing site data or changing devices can erase it; export backups regularly.','Background notifications and direct Google Calendar sync are not available in this version.','For medication schedules, follow your clinician’s instructions and do not independently shift prescribed doses.']
@@ -78,7 +112,7 @@ function renderInformation(){
  for(const [heading,description] of helpCopy[state.lang]){const section=node('article','info-item');section.append(node('h2','',heading),node('p','',description));steps.append(section);}
  const notes=$('help-notes');notes.replaceChildren();
  for(const warning of helpWarnings[state.lang])notes.append(node('p','info-note',warning));
- const donate=$('donate-details');donate.replaceChildren();donate.append(node('p','info-note',t('donatePending')),node('p','',t('donateThanks')));
+ renderDonation();
  for(const view of ['tasks','help','donate']){$(`view-${view}`).hidden=view!==activeView;const button=$(`nav-${view}`);button.classList.toggle('selected',view===activeView);if(view===activeView)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');}
 }
 for(const button of document.querySelectorAll('.nav-button'))button.addEventListener('click',()=>{activeView=button.dataset.view;renderInformation();});

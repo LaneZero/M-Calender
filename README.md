@@ -1,6 +1,6 @@
 # M Calendar | ام کالندر
 
-**Version:** v0.1.4
+**Version:** v0.1.5
 
 Offline-first recurring-task PWA with Persian/English UI and Solar Hijri/Gregorian calendars. The language and calendar can be changed independently.
 
@@ -63,6 +63,26 @@ gh release create v0.2.0 --generate-notes --title "M Calendar v0.2.0"
 ```
 
 **Important:** Do not reuse an existing tag or change a released tag. Always use a **new** version number. Pushing to `main` redeploys GitHub Pages; a tag/release preserves a version snapshot but does not itself redeploy Pages.
+
+## Release v0.1.5 — Cryptocurrency donation addresses
+
+- Four donation cards with distinctive icons for Bitcoin, USDT on TRON/TRC20, EVM (Ethereum, BNB Smart Chain, Polygon), and Solana.
+- Copy-address buttons, bilingual network descriptions, mobile-friendly layout and explicit verification warnings.
+- Addresses are public and static; no wallet connection, payment processing, transfers, transaction monitoring or financial data collection.
+- Addresses are taken directly from project owner instructions. Verify ownership and destination before publishing or transferring.
+- Local activity data and recurrence engine are unchanged.
+
+### Publish v0.1.5
+
+```powershell
+git status
+git add .
+git commit -m "feat: add cryptocurrency donations v0.1.5"
+git push origin main
+git tag -a v0.1.5 -m "M Calendar v0.1.5"
+git push origin v0.1.5
+gh release create v0.1.5 --title "M Calendar v0.1.5" --generate-notes
+```
 
 ## Release v0.1.4 — Version, help and donate tabs
 

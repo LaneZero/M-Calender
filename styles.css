@@ -8,3 +8,14 @@
 .nav-button:hover{background:#1b2a42}.nav-button.selected{color:#fff;background:#263e63;border-color:#527caf}
 [hidden]{display:none!important}.info-view{margin-top:24px;max-width:860px}.info-view h1{font-size:1.65rem;margin:0 0 12px}.info-lead{color:#c2d0e5;line-height:1.8}.info-content{display:grid;gap:12px;margin-top:20px}.info-item{background:#18253a;border:1px solid #304158;border-radius:14px;padding:14px 18px}.info-item h2{font-size:1rem;margin:0 0 7px}.info-item p,.info-note{margin:0;line-height:1.9;color:#b5c5db;font-size:.9rem}.info-note{padding:13px;border-inline-start:3px solid #779fe3;background:#17263b;border-radius:5px}
 @media(max-width:500px){.app-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.nav-button{padding:10px 6px;font-size:.87rem}.info-view{padding:15px}}
+
+/* Donation addresses: legible on narrow screens, with bidirectional isolation. */
+.wallet-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.wallet-card{display:flex;flex-direction:column;gap:14px;min-width:0;background:#18253a;border:1px solid #34475f;border-radius:16px;padding:17px}
+.wallet-heading{display:flex;align-items:center;gap:12px;min-width:0}
+.wallet-logo{width:45px;height:45px;flex:none;display:grid;place-items:center;border-radius:13px;font-size:1.75rem;font-weight:800}
+.wallet-btc{color:#fff;background:#d98315}.wallet-usdt{color:#fff;background:#168b70}.wallet-evm{color:#fff;background:#6857ae}.wallet-sol{color:#fff;background:linear-gradient(135deg,#7159b4,#1e9b89)}
+.wallet-title{min-width:0}.wallet-title h2{font-size:1rem;margin:0 0 6px}.wallet-title p{margin:0;font-size:.78rem;line-height:1.6;color:#b6c9e1}
+.wallet-address{display:block;max-width:100%;overflow-wrap:anywhere;word-break:break-word;unicode-bidi:isolate;text-align:left;background:#0b1526;border:1px solid #394b62;border-radius:10px;padding:12px;color:#e2eeff;font-size:.84rem;line-height:1.65;user-select:all}
+.wallet-copy{align-self:flex-start;padding:9px 16px}.donation-warning{border-inline-start-color:#f2be66}.donate-thanks{color:#b8c9dd;line-height:1.7;margin:0}
+@media(max-width:680px){.wallet-grid{grid-template-columns:1fr}.wallet-card{padding:14px}}
