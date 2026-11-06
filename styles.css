@@ -19,3 +19,6 @@
 .wallet-address{display:block;max-width:100%;overflow-wrap:anywhere;word-break:break-word;unicode-bidi:isolate;text-align:left;background:#0b1526;border:1px solid #394b62;border-radius:10px;padding:12px;color:#e2eeff;font-size:.84rem;line-height:1.65;user-select:all}
 .wallet-copy{align-self:flex-start;padding:9px 16px}.donation-warning{border-inline-start-color:#f2be66}.donate-thanks{color:#b8c9dd;line-height:1.7;margin:0}
 @media(max-width:680px){.wallet-grid{grid-template-columns:1fr}.wallet-card{padding:14px}}
+
+/* v0.2.0: permission controls and per-task reminders. */
+.notification-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 16px}.notification-controls .hint{margin:0}.reminder-editor{display:grid;gap:10px;border:1px solid #34465d;border-radius:12px;padding:13px;background:#16263a}.reminder-toggle{display:flex;align-items:center;gap:10px}.reminder-toggle input{width:18px;height:18px;accent-color:#8bafff}.reminder-editor .hint{margin:0}

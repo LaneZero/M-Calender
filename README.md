@@ -1,6 +1,6 @@
 # M Calendar | ام کالندر
 
-**Version:** v0.1.5
+**Version:** v0.2.0
 
 Offline-first recurring-task PWA with Persian/English UI and Solar Hijri/Gregorian calendars. The language and calendar can be changed independently.
 
@@ -23,7 +23,7 @@ Open `http://localhost:8080`. Service workers require HTTPS or localhost; openin
 git init
 git branch -M main
 git add .
-git commit -m "chore: release M Calendar v0.1.4"
+git commit -m "chore: release M Calendar v0.2.0"
 git remote add origin https://github.com/YOUR-USERNAME/m-calendar.git
 git push -u origin main
 ```
@@ -38,9 +38,9 @@ Replace `YOUR-USERNAME` with your GitHub username. Authenticate with Git Credent
 After installing/authenticating GitHub CLI (`gh auth login`), run:
 
 ```bash
-git tag -a v0.1.4 -m "M Calendar v0.1.4"
-git push origin v0.1.4
-gh release create v0.1.4 --title "M Calendar v0.1.4" --notes "Add app version, bilingual help, and donate tabs."
+git tag -a v0.2.0 -m "M Calendar v0.2.0"
+git push origin v0.2.0
+gh release create v0.2.0 --title "M Calendar v0.2.0" --notes "Add app version, bilingual help, and donate tabs."
 ```
 
 ## Commands for **every next version**
@@ -64,7 +64,38 @@ gh release create v0.2.0 --generate-notes --title "M Calendar v0.2.0"
 
 **Important:** Do not reuse an existing tag or change a released tag. Always use a **new** version number. Pushing to `main` redeploys GitHub Pages; a tag/release preserves a version snapshot but does not itself redeploy Pages.
 
-## Release v0.1.5 — Cryptocurrency donation addresses
+## Release v0.2.0 — Timed reminders (foreground only)
+
+- New per-activity reminder toggle and offset (on time / 5 / 15 / 30 / 60 minutes early).
+- Explicit **Enable browser notifications** control; permission requested only after a user click.
+- Browser reminders checked every 30 seconds and when the tab gains focus.
+- Notifications are deduplicated per activity, occurrence date, time and offset; completed occurrences are skipped.
+- At most 10 minutes late after waking from suspension; older notifications are silently skipped.
+- Local timezone is used; Persian/Gregorian calendar recurrence still maps to canonical dates.
+- Reminder choices survive JSON backup/import. Old saved activities remain compatible and disabled by default.
+- **Limitations:** requires this PWA to be open/running, a supported browser and notification permission. No backend Push, no notifications guaranteed with the app closed, no alarm-level delivery promise. Clock/timezone changes may alter delivery. For medication, do not rely on this as the only reminder.
+
+### Tests
+
+```bash
+node --test tests/*.cjs
+```
+
+### Publish v0.2.0
+
+```powershell
+git status
+git add .
+git commit -m "feat: add foreground reminders v0.2.0"
+git push origin main
+git tag -a v0.2.0 -m "M Calendar v0.2.0"
+git push origin v0.2.0
+gh release create v0.2.0 --title "M Calendar v0.2.0" --generate-notes
+```
+
+**Test reminder delivery:** open the app on HTTPS or localhost, click the browser notification permission button, create a reminder 2 minutes in the future and leave the page running. The app checks due reminders every 30 seconds. Denying permission prevents notification delivery. In a closed tab, notifications are not scheduled.
+
+## Release v0.2.0 — Cryptocurrency donation addresses
 
 - Four donation cards with distinctive icons for Bitcoin, USDT on TRON/TRC20, EVM (Ethereum, BNB Smart Chain, Polygon), and Solana.
 - Copy-address buttons, bilingual network descriptions, mobile-friendly layout and explicit verification warnings.
@@ -72,19 +103,19 @@ gh release create v0.2.0 --generate-notes --title "M Calendar v0.2.0"
 - Addresses are taken directly from project owner instructions. Verify ownership and destination before publishing or transferring.
 - Local activity data and recurrence engine are unchanged.
 
-### Publish v0.1.5
+### Publish v0.2.0
 
 ```powershell
 git status
 git add .
-git commit -m "feat: add cryptocurrency donations v0.1.5"
+git commit -m "feat: add cryptocurrency donations v0.2.0"
 git push origin main
-git tag -a v0.1.5 -m "M Calendar v0.1.5"
-git push origin v0.1.5
-gh release create v0.1.5 --title "M Calendar v0.1.5" --generate-notes
+git tag -a v0.2.0 -m "M Calendar v0.2.0"
+git push origin v0.2.0
+gh release create v0.2.0 --title "M Calendar v0.2.0" --generate-notes
 ```
 
-## Release v0.1.4 — Version, help and donate tabs
+## Release v0.2.0 — Version, help and donate tabs
 
 - Displays the current app version in the footer.
 - New bilingual Activities, Help and Donate navigation.
@@ -110,7 +141,7 @@ Run recurrence/end-date tests with `node tests/end-dates.test.cjs` (Node.js requ
 - Existing local data from Ritmo is preserved using the original storage key `ritmo-data-v1` when the user accesses the **same origin**. Changing from the old GitHub Pages repository URL to a new repository URL changes the origin; **export from the old app and import into the new one** before switching.
 - Export/import JSON backups; never commit personal backups or credentials.
 - Monthly recurrence uses the calendar selected when the task was created. For short months, it uses the month's last valid date.
-- Google Calendar direct sync and push notifications are **not** included in v0.1.4.
+- Google Calendar direct sync and push notifications are **not** included in v0.2.0.
 - This is a personal organizer, not a clinical medication-management tool.
 
 ## Future development
