@@ -1,6 +1,6 @@
 # M Calendar | ام کالندر
 
-**Version:** v0.1.3
+**Version:** v0.1.4
 
 Offline-first recurring-task PWA with Persian/English UI and Solar Hijri/Gregorian calendars. The language and calendar can be changed independently.
 
@@ -23,7 +23,7 @@ Open `http://localhost:8080`. Service workers require HTTPS or localhost; openin
 git init
 git branch -M main
 git add .
-git commit -m "chore: release M Calendar v0.1.3"
+git commit -m "chore: release M Calendar v0.1.4"
 git remote add origin https://github.com/YOUR-USERNAME/m-calendar.git
 git push -u origin main
 ```
@@ -38,9 +38,9 @@ Replace `YOUR-USERNAME` with your GitHub username. Authenticate with Git Credent
 After installing/authenticating GitHub CLI (`gh auth login`), run:
 
 ```bash
-git tag -a v0.1.3 -m "M Calendar v0.1.3"
-git push origin v0.1.3
-gh release create v0.1.3 --title "M Calendar v0.1.3" --notes "Add optional end dates and calendar-aware end-of-month/year shortcuts."
+git tag -a v0.1.4 -m "M Calendar v0.1.4"
+git push origin v0.1.4
+gh release create v0.1.4 --title "M Calendar v0.1.4" --notes "Add app version, bilingual help, and donate tabs."
 ```
 
 ## Commands for **every next version**
@@ -64,6 +64,14 @@ gh release create v0.2.0 --generate-notes --title "M Calendar v0.2.0"
 
 **Important:** Do not reuse an existing tag or change a released tag. Always use a **new** version number. Pushing to `main` redeploys GitHub Pages; a tag/release preserves a version snapshot but does not itself redeploy Pages.
 
+## Release v0.1.4 — Version, help and donate tabs
+
+- Displays the current app version in the footer.
+- New bilingual Activities, Help and Donate navigation.
+- Help explains task creation, recurrence, end dates, language/calendar settings, backups, and limitations.
+- Donate page has no payment link until the project owner supplies a verified destination. No placeholder account or payment collection.
+- Existing tasks and local storage remain unchanged.
+
 ## Release v0.1.3 — End dates
 
 Run recurrence/end-date tests with `node tests/end-dates.test.cjs` (Node.js required).
@@ -82,7 +90,7 @@ Run recurrence/end-date tests with `node tests/end-dates.test.cjs` (Node.js requ
 - Existing local data from Ritmo is preserved using the original storage key `ritmo-data-v1` when the user accesses the **same origin**. Changing from the old GitHub Pages repository URL to a new repository URL changes the origin; **export from the old app and import into the new one** before switching.
 - Export/import JSON backups; never commit personal backups or credentials.
 - Monthly recurrence uses the calendar selected when the task was created. For short months, it uses the month's last valid date.
-- Google Calendar direct sync and push notifications are **not** included in v0.1.3.
+- Google Calendar direct sync and push notifications are **not** included in v0.1.4.
 - This is a personal organizer, not a clinical medication-management tool.
 
 ## Future development
