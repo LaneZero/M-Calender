@@ -1,3 +1,22 @@
+## Release v0.2.1 — Mobile hotfix
+
+- Fixed a mobile activity-list refresh issue by resetting the filter to **All** after saving and repainting after the modal closes.
+- Replaced the native reminder-offset dropdown with five visible, accessible radio choices for mobile Safari and Chrome.
+- Kept existing local storage, schedule data, reminder offsets, and backup format unchanged.
+- Updated Service Worker cache version to avoid stale UI assets.
+- Reminders still run only while the PWA is open. **This version does not add background Push.**
+
+### Publish this patch
+
+```powershell
+git add .
+git commit -m "fix: mobile task refresh and reminder options v0.2.1"
+git push origin main
+git tag -a v0.2.1 -m "M Calendar v0.2.1"
+git push origin v0.2.1
+gh release create v0.2.1 --title "M Calendar v0.2.1" --generate-notes
+```
+
 # M Calendar | ام کالندر
 
 **Version:** v0.2.0

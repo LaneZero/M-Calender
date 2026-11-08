@@ -22,3 +22,12 @@
 
 /* v0.2.0: permission controls and per-task reminders. */
 .notification-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 16px}.notification-controls .hint{margin:0}.reminder-editor{display:grid;gap:10px;border:1px solid #34465d;border-radius:12px;padding:13px;background:#16263a}.reminder-toggle{display:flex;align-items:center;gap:10px}.reminder-toggle input{width:18px;height:18px;accent-color:#8bafff}.reminder-editor .hint{margin:0}
+
+/* v0.2.1: mobile-safe, readable reminder choices (no native dropdown popup). */
+.reminder-offset-label{font-size:.85rem;color:#c5d4e7}
+.reminder-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.reminder-choice{display:flex;align-items:center;gap:8px;padding:11px 10px;border:1px solid #425773;border-radius:10px;background:#1a2a42;color:#e8effa;min-height:45px;cursor:pointer;line-height:1.5}
+.reminder-choice input{flex:none;accent-color:#8bafff;width:17px;height:17px;margin:0;padding:0}
+.reminder-choice:has(input:checked){background:#2d4770;border-color:#9abaff;color:#fff}
+.reminder-choice:focus-within{outline:2px solid #79cbff;outline-offset:2px}
+@media(max-width:360px){.reminder-choices{grid-template-columns:1fr}}
