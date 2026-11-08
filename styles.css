@@ -31,3 +31,8 @@
 .reminder-choice:has(input:checked){background:#2d4770;border-color:#9abaff;color:#fff}
 .reminder-choice:focus-within{outline:2px solid #79cbff;outline-offset:2px}
 @media(max-width:360px){.reminder-choices{grid-template-columns:1fr}}
+
+/* Visible confirmation after saving/completing a task. */
+.action-feedback{margin:12px 0;padding:12px 14px;border:1px solid #4a8f79;border-radius:12px;background:#143a32;color:#b9f8d9;font-size:.88rem}
+.notification-controls button{min-height:44px}
+@media(max-width:760px){.notification-controls{align-items:stretch}.notification-controls button{width:100%}.task-actions button{min-height:44px}}

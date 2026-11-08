@@ -1,9 +1,9 @@
 import { reminderTimestamp, shouldDispatch, markDispatched, recentDispatches } from './reminders.js';
-// M Calendar v0.2.1: no external dependencies, no accounts, no network storage.
+// M Calendar v0.2.2: no external dependencies, no accounts, no network storage.
 const $ = id => document.getElementById(id);
 // Retain the old storage key so existing users keep their tasks after rebranding.
 const STORAGE = 'ritmo-data-v1';
-const APP_VERSION = 'v0.2.1';
+const APP_VERSION = 'v0.2.2';
 let activeView = 'tasks';
 const today = () => localISO(new Date());
 function localISO(date) { return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; }
@@ -20,8 +20,8 @@ let state=load();let editId=null;let startDate=today();let selectedDate=today();
 function load(){try{const value=JSON.parse(localStorage.getItem(STORAGE));if(value&&Array.isArray(value.tasks))return {...defaults,...value};}catch{}return structuredClone(defaults);}
 function persist(){localStorage.setItem(STORAGE,JSON.stringify(state));}
 const reminderStrings={
- fa:{enableNotice:'فعال‌سازی اعلان مرورگر',permissionGranted:'مجوز اعلان فعال است. یادآوری فقط هنگام بازبودن برنامه بررسی می‌شود.',permissionDenied:'مجوز اعلان مسدود شده است؛ آن را در تنظیمات مرورگر تغییر بده.',permissionPrompt:'برای دریافت یادآوری، مجوز اعلان مرورگر را فعال کن.',permissionUnsupported:'این مرورگر اعلان وب را پشتیبانی نمی‌کند.',reminderEnabled:'یادآوری این فعالیت فعال باشد',reminderOffset:'زمان یادآوری',atTime:'در ساعت مقرر',minutesBefore:'دقیقه قبل',hourBefore:'۱ ساعت قبل',reminderHint:'اعلان فقط وقتی برنامه باز و در حال اجراست بررسی می‌شود؛ برای هشدار حیاتی به آن تکیه نکن.',notificationTitle:'یادآوری M Calendar',notificationBody:'زمان انجام فعالیت فرا رسیده است.',notificationError:'مرورگر نتوانست مجوز اعلان را فعال کند.',notificationOn:'یادآوری روشن'},
- en:{enableNotice:'Enable browser notifications',permissionGranted:'Notifications allowed. Reminders are checked only while the app is running.',permissionDenied:'Notifications are blocked. Change permission in browser settings.',permissionPrompt:'Allow browser notifications to receive reminders.',permissionUnsupported:'This browser does not support web notifications.',reminderEnabled:'Enable reminders for this activity',reminderOffset:'Reminder time',atTime:'At scheduled time',minutesBefore:'minutes before',hourBefore:'1 hour before',reminderHint:'Notifications are checked only while the app is open and running. Do not rely on them for critical alerts.',notificationTitle:'M Calendar reminder',notificationBody:'Your activity is due.',notificationError:'Unable to enable notification permission.',notificationOn:'Reminder on'}
+ fa:{enableNotice:'فعال‌کردن اعلان‌ها',permissionGranted:'اعلان فعال است. برای بررسی عملکرد، «ارسال اعلان آزمایشی» را بزن. یادآوری زمان‌بندی‌شده فقط هنگام اجرای برنامه کار می‌کند.',permissionDenied:'مجوز اعلان مسدود شده است؛ آن را در تنظیمات مرورگر تغییر بده.',permissionPrompt:'برای هشدارهای زمان‌بندی‌شده، ابتدا مجوز اعلان را فعال کن. سپس با اعلان آزمایشی آن را بررسی کن.',permissionUnsupported:'این مرورگر اعلان وب را پشتیبانی نمی‌کند.',reminderEnabled:'یادآوری این فعالیت فعال باشد',reminderOffset:'زمان یادآوری',atTime:'در ساعت مقرر',minutesBefore:'دقیقه قبل',hourBefore:'۱ ساعت قبل',reminderHint:'اعلان فقط وقتی برنامه باز و در حال اجراست بررسی می‌شود؛ برای هشدار حیاتی به آن تکیه نکن.',notificationTitle:'یادآوری M Calendar',notificationBody:'زمان انجام فعالیت فرا رسیده است.',notificationError:'مرورگر نتوانست مجوز اعلان را فعال کند.',notificationOn:'یادآوری روشن'},
+ en:{enableNotice:'Enable notifications',permissionGranted:'Notifications enabled. Use Test notification to verify delivery. Scheduled reminders work only while the app is running.',permissionDenied:'Notifications are blocked. Change permission in browser settings.',permissionPrompt:'Enable notifications, then test delivery. Scheduled reminders require the app to be running.',permissionUnsupported:'This browser does not support web notifications.',reminderEnabled:'Enable reminders for this activity',reminderOffset:'Reminder time',atTime:'At scheduled time',minutesBefore:'minutes before',hourBefore:'1 hour before',reminderHint:'Notifications are checked only while the app is open and running. Do not rely on them for critical alerts.',notificationTitle:'M Calendar reminder',notificationBody:'Your activity is due.',notificationError:'Unable to enable notification permission.',notificationOn:'Reminder on'}
 };
 function t(key){return reminderStrings[state.lang][key]??strings[state.lang][key];}
 function dateParts(iso, calendar=state.calendar){const f=new Intl.DateTimeFormat('en-US',{calendar,numberingSystem:'latn',year:'numeric',month:'numeric',day:'numeric'});const result={};for(const part of f.formatToParts(fromISO(iso)))if(['year','month','day'].includes(part.type))result[part.type]=Number(part.value);return result;}
@@ -50,6 +50,40 @@ const elapsed=Math.max(0,daysBetween(anchor,after));let k=Math.max(0,Math.floor(
 function dueOn(task,iso){if(iso<task.start||(task.end&&iso>task.end))return false;if(task.mode==='completion'&&task.history.length)return getDue(task,'0001-01-01')===iso;if(task.unit==='month'){for(let k=0;k<360;k+=task.every){const d=monthDue(task.start,k,task.calendar||"gregory");if(d===iso)return true;if(d>iso)return false;}return false;}const divisor=task.every*(task.unit==='week'?7:1);return daysBetween(task.start,iso)%divisor===0;}
 function dueUntil(task,iso=today()){const anchor=recurrenceAnchor(task);if(task.end&&iso>task.end)iso=task.end;if(anchor>iso)return false;if(task.mode==='completion'&&task.history.length){return getDue(task,'0001-01-01')<=iso;}if(task.unit==='month'){let count=0;for(let k=0;k<360;k+=task.every){const d=monthDue(task.start,k,task.calendar||"gregory");if(d>iso)break;if(!task.history.includes(d))count++;}return count>0;}
 const elapsed=daysBetween(task.start,iso),step=task.every*(task.unit==='week'?7:1);return Math.floor(elapsed/step)+1>task.history.filter(h=>h<=iso&&dueOn(task,h)).length;}
+// Determine the most recent scheduled occurrence at/before today. Older missed
+// occurrences never make a newly completed task look permanently overdue.
+function latestScheduled(task, day=today()) {
+ const limit=task.end&&task.end<day?task.end:day;
+ if(limit<task.start)return null;
+ if(task.mode==='completion'&&task.history.length){
+  const next=getDue(task,'0001-01-01');
+  return next&&next<=limit?next:null;
+ }
+ if(task.unit==='month'){
+  let last=null;
+  for(let k=0;k<1200;k+=Number(task.every)){
+   const due=monthDue(task.start,k,task.calendar||'gregory');
+   if(due>limit)break;
+   last=due;
+  }
+  return last;
+ }
+ const interval=Number(task.every)*(task.unit==='week'?7:1);
+ return plusDays(task.start,Math.floor(daysBetween(task.start,limit)/interval)*interval);
+}
+function taskStatus(task, day=today()) {
+ const last=latestScheduled(task,day);
+ const completed=last!==null&&task.history.includes(last);
+ const ended=!!task.end&&task.end<day;
+ const pending=!!last&&!completed&&!ended;
+ // On the due calendar date, classify as 'today', not overdue, irrespective of the clock time.
+ const kind=pending?(last===day?'today':'overdue'):ended?'ended':completed?'done':'upcoming';
+ const next=pending?last:getDue(task,plusDays(day,1));
+ return {last,pending,completed,ended,kind,next};
+}
+function displayMessage(message){
+ const box=$('action-feedback');box.textContent=message;box.hidden=false;
+}
 function node(tag,classes='',text=''){const el=document.createElement(tag);if(classes)el.className=classes;if(text)el.textContent=text;return el;}
 // Help content is built with textContent, never user-supplied HTML.
 const helpCopy = {
@@ -122,8 +156,39 @@ function renderInformation(){
 }
 for(const button of document.querySelectorAll('.nav-button'))button.addEventListener('click',()=>{activeView=button.dataset.view;renderInformation();});
 function applyLanguage(){document.documentElement.lang=state.lang;document.documentElement.dir=state.lang==='fa'?'rtl':'ltr';const ids={tagline:'tagline','language-label':'language','calendar-label':'calendar',eyebrow:'eyebrow',heading:'heading',subtitle:'subtitle','add-button':'add','tasks-heading':'tasks','calendar-heading':'calendarTitle','export-button':'export','import-label':'import','calendar-hint':'hint',privacy:'privacy','name-label':'name','category-label':'category','repeat-label':'repeat','schedule-label':'mode','start-label':'start','end-label':'end','time-label':'time','schedule-explanation':'explain','cancel-button':'cancel','save-button':'save'};for(const [id,key] of Object.entries(ids))$(id).textContent=t(key);const groups={'task-filter':['all','due','upcoming'],'task-category':['general','health','work','personal'],'repeat-unit':['day','week','month'],'schedule-mode':['fixed','completion']};for(const [id,keys] of Object.entries(groups))keys.forEach((key,i)=>$(id).options[i].textContent=t(key));for(const [id,key] of [['end-none','noEnd'],['end-month','endOfMonth'],['end-year','endOfYear']])$(id).textContent=t(key);$('reminder-enabled-label').textContent=t('reminderEnabled');$('reminder-offset-label').textContent=t('reminderOffset');$('reminder-hint').textContent=t('reminderHint');document.querySelectorAll('input[name=reminder-offset]').forEach(input=>{const minutes=Number(input.value);const label=input.closest('label').querySelector('.reminder-choice-text');label.textContent=minutes===0?t('atTime'):minutes===60?t('hourBefore'):`${num(minutes)} ${t('minutesBefore')}`;});if($('editor').open)updateEndControls();}
-function render(){applyLanguage();updateNotificationStatus();renderInformation();$('language').value=state.lang;$('calendar-system').value=state.calendar;const dueCount=state.tasks.filter(task=>dueUntil(task)).length;const todayCount=state.tasks.reduce((n,task)=>n+task.history.filter(h=>h===today()).length,0);$('stats').replaceChildren(...[['totalStat',state.tasks.length],['dueStat',dueCount],['doneStat',todayCount]].map(([key,value])=>{const el=node('div','stat');el.append(node('span','',t(key)),node('strong','',num(value)));return el;}));renderTasks();renderMonth();}
-function renderTasks(){const filter=$('task-filter').value;const tasks=[...state.tasks].sort((a,b)=>(getDue(a,'0001-01-01')||'9999').localeCompare(getDue(b,'0001-01-01')||'9999'));const list=$('task-list');list.replaceChildren();for(const task of tasks){const isDue=dueUntil(task);if(filter==='due'&&!isDue||filter==='upcoming'&&isDue)continue;const due=getDue(task,today());const card=node('article','task');const top=node('div','task-top');const heading=node('div');heading.append(node('h3','',task.name),node('p','',`${t(task.category)} · ${t('every')} ${num(task.every)} ${t(task.unit)} · ${t(task.mode)}`));const expired=!!task.end&&task.end<today()&&!isDue;const badge=node('span',`badge ${isDue?'due':''}`,isDue?t('overdue'):expired?t('ended'):t('upcoming'));top.append(heading,badge);card.append(top,node('p','',`${t('next')}: ${due?dateFmt(due):t('noDue')}${task.time?' · '+task.time:''}${task.end?' · '+t('end')+': '+dateFmt(task.end):''}`));const actions=node('div','task-actions');const finish=node('button','primary',t('complete'));finish.addEventListener('click',()=>{const dueNow=getDue(task,'0001-01-01');const record=task.mode==='fixed'&&dueNow<=today()?dueNow:today();if(!task.history.includes(record))task.history.push(record);persist();render();});finish.disabled=expired||(!isDue&&!!task.end&&task.end<today());const edit=node('button','secondary',t('edit'));edit.addEventListener('click',()=>openEditor(task));const remove=node('button','secondary',t('remove'));remove.addEventListener('click',()=>{if(confirm(t('deleteConfirm'))){state.tasks=state.tasks.filter(a=>a.id!==task.id);persist();render();}});actions.append(finish,edit,remove);if(task.history.length){const undo=node('button','secondary',t('undo'));undo.addEventListener('click',()=>{task.history.sort();task.history.pop();persist();render();});actions.append(undo);}card.append(actions);list.append(card);}if(!list.childElementCount)list.append(node('p','empty',t('empty')));}
+function render(){applyLanguage();updateNotificationStatus();renderInformation();$('language').value=state.lang;$('calendar-system').value=state.calendar;const todayKey=today();const dueCount=state.tasks.filter(task=>taskStatus(task,todayKey).pending).length;const todayCount=state.tasks.reduce((n,task)=>n+task.history.filter(h=>h===todayKey).length,0);$('stats').replaceChildren(...[['totalStat',state.tasks.length],['dueStat',dueCount],['doneStat',todayCount]].map(([key,value])=>{const el=node('div','stat');el.append(node('span','',t(key)),node('strong','',num(value)));return el;}));renderTasks();renderMonth();}
+function renderTasks(){
+ const filter=$('task-filter').value, day=today();
+ const tasks=[...state.tasks].sort((a,b)=>(taskStatus(a,day).next||'9999').localeCompare(taskStatus(b,day).next||'9999'));
+ const list=$('task-list');list.replaceChildren();
+ for(const task of tasks){
+  const status=taskStatus(task,day);
+  if((filter==='due'&&!status.pending)||(filter==='upcoming'&&status.pending))continue;
+  const card=node('article','task');card.dataset.taskId=task.id;
+  const top=node('div','task-top'),heading=node('div');
+  heading.append(node('h3','',task.name),node('p','',`${t(task.category)} · ${t('every')} ${num(task.every)} ${t(task.unit)} · ${t(task.mode)}`));
+  const badges={today:t('dueToday'),overdue:t('overdue'),ended:t('ended'),done:t('done'),upcoming:t('upcoming')};
+  const badge=node('span',`badge ${status.kind==='overdue'?'due':status.kind==='done'?'done':''}`,badges[status.kind]);
+  top.append(heading,badge);
+  card.append(top,node('p','',`${t('next')}: ${status.next?dateFmt(status.next):t('noDue')}${task.time?' · '+task.time:''}${task.end?' · '+t('end')+': '+dateFmt(task.end):''}`));
+  const actions=node('div','task-actions');
+  const finish=node('button','primary',t('complete'));finish.type='button';
+  finish.disabled=!status.pending;
+  finish.addEventListener('click',()=>{
+   const current=taskStatus(task,today());
+   if(!current.pending||!current.last)return;
+   // Record the latest actionable occurrence, never an ancient occurrence.
+   task.history=[...new Set([...task.history,current.last])].sort();
+   persist();render();displayMessage(`${t('completed')} · ${task.name} · ${dateFmt(current.last)}`);
+  });
+  const edit=node('button','secondary',t('edit'));edit.type='button';edit.addEventListener('click',()=>openEditor(task));
+  const remove=node('button','secondary',t('remove'));remove.type='button';remove.addEventListener('click',()=>{if(confirm(t('deleteConfirm'))){state.tasks=state.tasks.filter(a=>a.id!==task.id);persist();render();}});
+  actions.append(finish,edit,remove);
+  if(task.history.length){const undo=node('button','secondary',t('undo'));undo.type='button';undo.addEventListener('click',()=>{task.history.sort();task.history.pop();persist();render();});actions.append(undo);}
+  card.append(actions);list.append(card);
+ }
+ if(!list.childElementCount)list.append(node('p','empty',t('empty')));
+}
 function weekdayIndex(iso){const weekday=fromISO(iso).getDay();return (weekday-(state.calendar==='persian'?6:0)+7)%7;}
 function weekdayNames(){const start=state.calendar==='persian'?6:0;return Array.from({length:7},(_,i)=>{const d=new Date(2026,10,1);d.setDate(d.getDate()+(start+i-d.getDay()+7)%7);return new Intl.DateTimeFormat(state.lang==='fa'?'fa-IR':'en-US',{weekday:'short'}).format(d);});}
 function drawCalendar(month,where,head,daysHost,onSelect){$(head).textContent=dateFmt(month,{month:'long',year:'numeric'});const first=firstOfMonth(month),dates=monthDates(month);$(where).replaceChildren(...weekdayNames().map(s=>node('span','',s)));const grid=$(daysHost);grid.replaceChildren();for(let i=0;i<weekdayIndex(first);i++)grid.append(node('span'));for(const iso of dates){const isSelected=iso===(daysHost==='picker-days'?(pickerTarget==='start'?startDate:endDate):selectedDate);const day=node('button',`day ${iso===today()?'today ':''}${isSelected?'active ':''}${daysHost==='calendar-grid'&&state.tasks.some(task=>dueOn(task,iso))?'has-task':''}`,num(dateParts(iso).day));day.type='button';day.setAttribute('aria-label',dateFmt(iso));day.addEventListener('click',()=>onSelect(iso));grid.append(day);}}
@@ -137,29 +202,70 @@ $('language').addEventListener('change',e=>{state.lang=e.target.value;persist();
 $('task-form').addEventListener('submit',e=>{e.preventDefault();const name=$('task-name').value.trim(),every=Number($('repeat-every').value);if(!name||!Number.isInteger(every)||every<1||every>365)return;if(endDate&&endDate<startDate){alert(t('endBeforeStart'));return;}const old=state.tasks.find(task=>task.id===editId);const task={id:old?.id||crypto.randomUUID(),name,category:$('task-category').value,every,unit:$('repeat-unit').value,mode:$('schedule-mode').value,start:startDate,end:endDate,time:$('task-time').value,calendar:old?.calendar||state.calendar,history:old?.history||[],reminder:{enabled:$('reminder-enabled').checked,offsetMinutes:getReminderOffset()}};if(old)Object.assign(old,task);else state.tasks.push(task);
 // A newly saved activity should always appear, regardless of the previous filter.
 $('task-filter').value='all';
-persist();$('editor').close();render();
-// Some mobile browsers defer repainting content behind a closing modal.
-requestAnimationFrame(()=>{renderTasks();});});
+activeView='tasks';persist();$('editor').close();render();
+displayMessage(`${t('save')} · ${task.name}`);
+// Scroll to the newly saved card after the modal has closed.
+requestAnimationFrame(()=>{const card=[...document.querySelectorAll('#task-list .task')].find(el=>el.dataset.taskId===task.id);card?.scrollIntoView({block:'nearest',behavior:'auto'});});});
 $('export-button').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({version:1,...state},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=`m-calendar-backup-${today()}.json`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 $('import-file').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>2_000_000)throw Error('size');const json=JSON.parse(await file.text());if(!Array.isArray(json.tasks)||json.tasks.length>2000||!json.tasks.every(task=>typeof task.name==='string'&&task.name.length<=100&&task.name.length>0&&['general','health','work','personal'].includes(task.category)&&Number.isInteger(task.every)&&task.every>=1&&task.every<=365&&['day','week','month'].includes(task.unit)&&['fixed','completion'].includes(task.mode)&&/^\d{4}-\d{2}-\d{2}$/.test(task.start)&&(task.end==null||/^\d{4}-\d{2}-\d{2}$/.test(task.end)&&task.end>=task.start)&&(task.reminder==null||(typeof task.reminder==='object'&&typeof task.reminder.enabled==='boolean'&&[0,5,15,30,60].includes(task.reminder.offsetMinutes)))&&Array.isArray(task.history)&&task.history.length<10000&&task.history.every(h=>/^\d{4}-\d{2}-\d{2}$/.test(h))))throw Error('schema');if(confirm(t('importConfirm'))){state={lang:json.lang==='en'?'en':'fa',calendar:json.calendar==='gregory'?'gregory':'persian',tasks:json.tasks.map(x=>({...x,id:crypto.randomUUID(),time:typeof x.time==='string'?x.time:'',calendar:x.calendar==='persian'?'persian':'gregory',end:x.end||null,history:[...new Set(x.history)],reminder:{enabled:x.reminder?.enabled===true,offsetMinutes:[0,5,15,30,60].includes(x.reminder?.offsetMinutes)?x.reminder.offsetMinutes:0}}))};persist();render();}}catch{alert(t('invalid'));}e.target.value='';});
-$('notification-permission').addEventListener('click',async()=>{if(!('Notification' in window))return;try{const permission=await Notification.requestPermission();updateNotificationStatus();if(permission==='granted')scanReminders();}catch{window.alert(t('notificationError'));}});
-function updateNotificationStatus(){const supported=('Notification' in window)&&window.isSecureContext;const permission=supported?Notification.permission:'unsupported';$('notification-permission').hidden=!supported||permission==='granted'||permission==='denied';$('notification-permission').textContent=t('enableNotice');$('notification-status').textContent=t(permission==='granted'?'permissionGranted':permission==='denied'?'permissionDenied':permission==='default'?'permissionPrompt':'permissionUnsupported');}
+// Notification permission must be requested directly in a user gesture (Firefox/Chrome).
+$('notification-permission').addEventListener('click',async()=>{
+ if(!('Notification' in window)||!window.isSecureContext)return;
+ try{const permission=await Notification.requestPermission();updateNotificationStatus();
+  if(permission==='granted')await scanReminders();}
+ catch{displayMessage(t('notificationError'));}
+});
+$('notification-test').addEventListener('click',async()=>{
+ try{await showBrowserNotification(t('notificationTitle'),state.lang==='fa'?'این یک اعلان آزمایشی است.':'This is a test notification.',`mcalendar-test-${Date.now()}`);
+  displayMessage(state.lang==='fa'?'اعلان آزمایشی ارسال شد؛ تنظیمات سیستم را هم بررسی کن.':'Test notification sent; check system notification settings.');}
+ catch(error){displayMessage((state.lang==='fa'?'ارسال اعلان ناموفق بود: ':'Notification failed: ')+(error?.message||String(error)));}
+});
+async function showBrowserNotification(title,body,tag){
+ if(!('Notification' in window)||Notification.permission!=='granted')throw Error('Permission not granted');
+ const options={body,tag,icon:'./icon.svg'};
+ // Service worker notifications work on Chrome/Firefox mobile where new Notification() may throw.
+ if('serviceWorker' in navigator){
+  const registration=await navigator.serviceWorker.getRegistration();
+  if(registration?.active&&typeof registration.showNotification==='function'){await registration.showNotification(title,options);return;}
+ }
+ const notice=new Notification(title,options);
+ notice.onclick=()=>{window.focus();notice.close();};
+}
+function updateNotificationStatus(){
+ const supported=('Notification' in window)&&window.isSecureContext;
+ const permission=supported?Notification.permission:'unsupported';
+ $('notification-permission').hidden=!supported||permission!=='default';
+ $('notification-test').hidden=!supported||permission!=='granted';
+ $('notification-permission').textContent=t('enableNotice');
+ $('notification-test').textContent=state.lang==='fa'?'ارسال اعلان آزمایشی':'Test notification';
+ const hint=permission==='denied'?(state.lang==='fa'?'اعلان مسدود است. از تنظیمات مجوزهای سایت در مرورگر اجازه بده.':'Notifications are blocked. Allow them in browser site settings.'):t(permission==='granted'?'permissionGranted':permission==='default'?'permissionPrompt':'permissionUnsupported');
+ $('notification-status').textContent=hint;
+}
 // In-page scheduler only. No claim of background delivery after browser closure.
 const REMINDER_LOG='m-calendar-reminder-log-v1';
-function scanReminders(){
- if(!('Notification' in window)||Notification.permission!=='granted')return;
- const now=new Date(), todayKey=localISO(now), tomorrow=plusDays(todayKey,1);
- let log;try{log=JSON.parse(localStorage.getItem(REMINDER_LOG))||{};}catch{log={};}
- log=recentDispatches(log,now.getTime());
- for(const task of state.tasks){if(task.reminder?.enabled!==true||!/^([01]\d|2[0-3]):[0-5]\d$/.test(task.time||''))continue;
-  for(const dueDate of [todayKey,tomorrow]){
-   if(!dueOn(task,dueDate)||task.history.includes(dueDate))continue;
-   const timestamp=reminderTimestamp(dueDate,task.time,task.reminder.offsetMinutes||0);
-   const id=JSON.stringify([task.id,dueDate,task.time,task.reminder.offsetMinutes||0]);
-   if(!shouldDispatch(now.getTime(),timestamp,log[id]))continue;
-   try{const message=new Notification(t('notificationTitle'),{body:`${task.name} · ${task.time}`,tag:`mcalendar-${task.id}-${dueDate}`,icon:'./icon.svg'});message.onclick=()=>{window.focus();message.close();};log=markDispatched(log,id,now.getTime());}catch{continue;}
+let scanInProgress=false;
+async function scanReminders(){
+ if(scanInProgress||!('Notification' in window)||Notification.permission!=='granted')return;
+ scanInProgress=true;
+ try{
+  const now=new Date(), todayKey=localISO(now), tomorrow=plusDays(todayKey,1);
+  let log;try{log=JSON.parse(localStorage.getItem(REMINDER_LOG))||{};}catch{log={};}
+  log=recentDispatches(log,now.getTime());
+  for(const task of state.tasks){
+   if(task.reminder?.enabled!==true||!/^([01]\d|2[0-3]):[0-5]\d$/.test(task.time||''))continue;
+   for(const dueDate of [todayKey,tomorrow]){
+    if(!dueOn(task,dueDate)||task.history.includes(dueDate))continue;
+    const timestamp=reminderTimestamp(dueDate,task.time,task.reminder.offsetMinutes||0);
+    const id=JSON.stringify([task.id,dueDate,task.time,task.reminder.offsetMinutes||0]);
+    if(!shouldDispatch(now.getTime(),timestamp,log[id]))continue;
+    try{
+     await showBrowserNotification(t('notificationTitle'),`${task.name} · ${task.time}`,`mcalendar-${task.id}-${dueDate}`);
+     log=markDispatched(log,id,now.getTime());
+     localStorage.setItem(REMINDER_LOG,JSON.stringify(log));
+    }catch(error){console.warn('Notification delivery failed:',error);}
+   }
   }
- }
- try{localStorage.setItem(REMINDER_LOG,JSON.stringify(log));}catch{}
+ }finally{scanInProgress=false;}
 }
-render();scanReminders();setInterval(scanReminders,30000);window.addEventListener('focus',scanReminders);document.addEventListener('visibilitychange',()=>{if(!document.hidden)scanReminders();});if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+
+render();scanReminders();setInterval(scanReminders,30000);window.addEventListener('focus',scanReminders);document.addEventListener('visibilitychange',()=>{if(!document.hidden)scanReminders();});if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(error=>console.warn('Service worker registration failed:',error));

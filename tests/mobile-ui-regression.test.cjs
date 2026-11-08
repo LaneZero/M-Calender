@@ -8,7 +8,8 @@ const source = fs.readFileSync(path.join(root, 'src.js'), 'utf8');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
 test('task save resets list filter and schedules repaint after modal close', () => {
-  assert.match(source, /\$\('task-filter'\)\.value='all';[\s\S]*?persist\(\);\$\('editor'\)\.close\(\);render\(\);[\s\S]*?requestAnimationFrame\(\(\)=>\{renderTasks\(\);\}\)/);
+  assert.match(source, /\$\('task-filter'\)\.value='all';[\s\S]*?activeView='tasks';persist\(\);\$\('editor'\)\.close\(\);render\(\)/);
+  assert.match(source, /card\?\.scrollIntoView/);
 });
 test('reminder offsets are visible radio controls and retain existing minute values', () => {
   const choices = [...html.matchAll(/name="reminder-offset" value="(\d+)"/g)].map(m=>Number(m[1]));
