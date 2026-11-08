@@ -2,7 +2,7 @@
   "id": "./",
   "name": "M Calendar | ام کالندر",
   "short_name": "M Calendar",
-  "description": "Bilingual recurring task tracker with Persian and Gregorian calendars",
+  "description": "Bilingual recurring activity tracker with Persian and Gregorian calendars",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -10,9 +10,21 @@
   "theme_color": "#f1f7f9",
   "icons": [
     {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
       "purpose": "any"
     }
   ]

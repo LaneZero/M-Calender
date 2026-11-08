@@ -3,7 +3,7 @@ import { reminderTimestamp, shouldDispatch, markDispatched, recentDispatches } f
 const $ = id => document.getElementById(id);
 // Retain the old storage key so existing users keep their tasks after rebranding.
 const STORAGE = 'ritmo-data-v1';
-const APP_VERSION = 'v0.2.3';
+const APP_VERSION = 'v0.2.4';
 let activeView = 'tasks';
 const today = () => localISO(new Date());
 function localISO(date) { return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; }
@@ -239,7 +239,7 @@ $('notification-test').addEventListener('click',async()=>{
 });
 async function showBrowserNotification(title,body,tag){
  if(!('Notification' in window)||Notification.permission!=='granted')throw Error('Permission not granted');
- const options={body,tag,icon:'./icon.svg'};
+ const options={body,tag,icon:'./icon-192.png',badge:'./icon-192.png'};
  // Service worker notifications work on Chrome/Firefox mobile where new Notification() may throw.
  if('serviceWorker' in navigator){
   const registration=await navigator.serviceWorker.getRegistration();

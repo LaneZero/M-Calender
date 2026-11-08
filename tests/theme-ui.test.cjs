@@ -23,7 +23,7 @@ test('slogans are bilingual, appearance is independent of calendar selection',()
 });
 test('theme styles are cached with versioned service worker and include mobile accessibility',()=>{
  assert.match(html,/href="\.\/themes\.css"/);
- assert.match(sw,/m-calendar-shell-v0\.2\.3/);
+ assert.match(sw,/m-calendar-shell-v0\.2\.4/);
  assert.match(sw,/'\.\/themes\.css'/);
  assert.match(css,/prefers-reduced-motion:reduce/);
  assert.match(css,/min-height:44px/);
