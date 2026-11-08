@@ -2,308 +2,194 @@
 
 # 📅 M Calendar
 
-### Your recurring activities, organized. | فعالیت‌های تکراری، همیشه در برنامه
+### Plan with ease. Stay on track.
+### برنامه‌ات روشن، ذهنت آسوده
 
-**A lightweight, offline-first Progressive Web App for recurring tasks, with English/Persian interfaces and Gregorian/Solar Hijri calendars.**
+**A simple, bilingual calendar for recurring activities.**  
+**تقویمی ساده و دو‌زبانه برای مدیریت فعالیت‌های تکرارشونده.**
 
-**یک وب‌اپلیکیشن پیش‌رونده و سبک برای مدیریت فعالیت‌های تکرارشونده، با رابط فارسی و انگلیسی و تقویم شمسی و میلادی.**
+[![Version](https://img.shields.io/badge/version-v0.2.3-607e97?style=flat-square)](https://github.com/LaneZero/M-Calender/releases)
+[![Languages](https://img.shields.io/badge/languages-FA%20%7C%20EN-7494a7?style=flat-square)](https://github.com/LaneZero/M-Calender)
+[![Calendars](https://img.shields.io/badge/calendars-Jalali%20%7C%20Gregorian-6b927b?style=flat-square)](https://github.com/LaneZero/M-Calender)
+[![License: MIT](https://img.shields.io/badge/license-MIT-8076a7?style=flat-square)](LICENSE)
 
-![Version](https://img.shields.io/badge/version-v0.2.2-2563eb?style=flat-square)
-![PWA](https://img.shields.io/badge/PWA-offline--first-16a34a?style=flat-square)
-![License](https://img.shields.io/badge/license-MIT-64748b?style=flat-square)
-![Backend](https://img.shields.io/badge/backend-not%20required-64748b?style=flat-square)
+**[🌐 Open M Calendar](https://lanezero.github.io/M-Calender/)** · **[💻 GitHub](https://github.com/LaneZero/M-Calender)** · **[🛟 Support](https://github.com/LaneZero/M-Calender/issues)** · **[📦 Releases](https://github.com/LaneZero/M-Calender/releases)**
 
-**[English](#english) · [فارسی](#فارسی) · [Support](#support--feedback) · [Changelog](#changelog)**
+[فارسی](#فارسی) · [English](#english) · [Support / پشتیبانی](#support--پشتیبانی)
 
 </div>
-
-> **Current app release: v0.2.2.** This README describes the actual features available in that release. It does not imply that background push notifications, Google Calendar sync, or multi-device sync are already implemented.
->
-> **GitHub links:** Replace `YOUR-USERNAME` in the examples below with the account or organization that hosts `m-calendar`. The public repository URL has not been independently verified.
-
----
-
-<a id="english"></a>
-## 🇬🇧 English
-
-### Overview
-
-M Calendar helps you plan activities that repeat every **N days, weeks, or months**, see what is due, record completions, and optionally receive browser notifications **while the app is running**. It runs without an account or server-side database and is designed to work on mobile and desktop.
-
-### Features in v0.2.2
-
-| Area | What is available |
-| --- | --- |
-| 🌍 Language | Persian and English; RTL/LTR layout switches with the language. |
-| 🗓️ Calendar | Solar Hijri (Persian) and Gregorian; display calendar is independent of UI language. |
-| 🔁 Recurrence | Every N days, weeks, or months; fixed schedule or interval after completion. |
-| 📆 End date | No end date, end of month, end of year, or manually selected end date; month/year presets follow the task's calendar. |
-| ✅ Activity tracking | Due/upcoming/all filters, monthly calendar, completion history, undo, edit, and delete. |
-| 🔔 Reminders | Optional per-task notification at the scheduled time or 5, 15, 30, or 60 minutes before; **only while open/running**. |
-| 💾 Storage | Local browser storage, JSON export, and JSON import (which **replaces** current data). |
-| 📱 PWA | Installable app shell and offline-first support after successful initial loading/caching. |
-| ❓ Help & Donate | In-app bilingual help and voluntary crypto donation information. |
-| 🛠️ v0.2.2 fixes | Newly saved tasks return the list filter to **All**; reminder lead-time uses touch-friendly radio options. |
-
-### Quick start
-
-1. Open the deployed M Calendar website in a supported browser.
-2. Select **English** or **فارسی**, and choose **Gregorian** or **Persian** independently.
-3. Click **New task**. Enter a name, category, recurrence interval, scheduling mode, start date, optional end date, and time.
-4. To enable reminders, turn on the task's reminder option, choose a lead time, save, and click **Enable browser notifications** when prompted by the in-app control.
-5. Use **All / Due / Upcoming** to navigate activities, and **Mark done** to record a completion.
-6. Use **Export backup** periodically. Store the JSON file somewhere safe; **Import backup** overwrites the current task collection after confirmation.
-
-**Example:** A fixed task starting on the 6th and repeating every 2 days is scheduled on the 6th, 8th, 10th, etc. A completion-based schedule recalculates the next occurrence from the recorded completion. For monthly schedules, shorter months use their last day when needed.
-
-### Reminder limitations (read before relying on them)
-
-- The app checks eligible reminders approximately every **30 seconds** and when the page regains focus.
-- **The page/PWA must remain open and running.** There is no background push service and no guarantee of delivery when the app is closed, suspended, offline without an active page, or unable to display notifications.
-- Browser notification permission, a supported browser, and a secure context (**HTTPS** or **localhost**) are required. OS settings may also suppress alerts.
-- Delayed checks can skip old reminders. Notification delivery is **not an exact-time alarm**.
-- Never use M Calendar as the sole reminder for medication or another safety-critical activity. Follow the prescribed schedule; do not automatically shift medical doses after a late completion.
-
-### Install / run locally
-
-**Requirements:** Modern browser, Python 3 for the simple local server. No npm dependencies are needed to use the app.
-
-```bash
-# Run from the folder containing index.html
-python -m http.server 8080
-```
-
-Open **http://localhost:8080**. Do not test the service worker using `file://` URLs.
-
-**Hosting on GitHub Pages:** In your repository, open **Settings → Pages → Build and deployment → Deploy from a branch**; choose `main` and `/ (root)`. The expected URL format is:
-
-```text
-https://YOUR-USERNAME.github.io/m-calendar/
-```
-
-**Install as a PWA:** Use your browser's installation / Add to Home Screen option when available. Installation prompts depend on browser and platform; an HTTPS website being accessible does not by itself prove installation support.
-
-### Project files
-
-```text
-m-calendar/
-├── index.html              # Application markup
-├── styles.css              # Responsive UI styles
-├── src.js                  # State, calendar and UI logic
-├── reminders.js            # Reminder timing / deduplication helpers
-├── sw.js                   # Offline shell service worker
-├── manifest.webmanifest    # PWA metadata
-├── icon.svg                # App icon
-├── tests/                  # Node.js regression tests
-├── LICENSE                 # MIT license
-└── README.md
-```
-
-### Development & tests
-
-Run the test suite from the project root with a current Node.js release:
-
-```bash
-node --test tests/*.cjs
-```
-
-The tests cover scheduling/end dates, reminder helpers and selected mobile UI regressions. **They do not substitute for real-device testing**, especially mobile Safari, Android notification permissions and PWA installation.
-
-### Publishing updates
-
-After testing and copying the updated project files into your local Git repository:
-
-```powershell
-# Documentation-only update to the existing v0.2.2 app
-git status
-git add README.md
-git commit -m "docs: improve bilingual README and support guide"
-git push origin main
-```
-
-For a **future actual application version** (example `v0.2.2`), update the version in the app files, service-worker cache name and README first; verify tests, then:
-
-```powershell
- git add .
-git commit -m "fix: release M Calendar v0.2.2"
-git push origin main
-git tag -a v0.2.2 -m "M Calendar v0.2.2"
-git push origin v0.2.2
- # Optional: requires authenticated GitHub CLI
-gh release create v0.2.2 --title "M Calendar v0.2.2" --generate-notes
-```
-
-**Do not recreate `v0.2.2` if it already exists.** GitHub Pages normally redeploys on pushes to the configured publishing branch; creating a tag or release alone does not update the website. Browser/PWA caches can delay what users see.
 
 ---
 
 <a id="فارسی"></a>
 ## 🇮🇷 فارسی
 
-### معرفی
+### درباره M Calendar
 
-**M Calendar** یک برنامه تحت وب قابل نصب (PWA) برای برنامه‌ریزی و ثبت فعالیت‌های تکراری است. می‌توانید کارهایی مثل مطالعه، ورزش یا مصرف مکمل را با فاصله زمانی مشخص تعریف کنید، سررسیدهای بعدی را ببینید و سابقه انجام آن‌ها را نگه دارید. استفاده از امکانات فعلی به ساخت حساب کاربری یا سرور اختصاصی نیاز ندارد.
+**M Calendar** به شما کمک می‌کند کارهای تکراری مثل مطالعه، ورزش، کارهای شخصی یا مصرف مکمل را برنامه‌ریزی کنید، زمان انجام هر نوبت را ببینید و سابقه انجام فعالیت‌ها را نگه دارید. برنامه به‌صورت وب‌اپلیکیشن قابل نصب (PWA) طراحی شده و بدون ثبت‌نام قابل استفاده است.
 
-### امکانات نسخه ۰٫۲٫۱
+**[ورود به برنامه](https://lanezero.github.io/M-Calender/)**
 
-- **دو زبان مستقل از تقویم:** فارسی (راست‌به‌چپ) و انگلیسی (چپ‌به‌راست)، همراه با تاریخ شمسی یا میلادی.
-- **تکرار قابل تنظیم:** هر تعداد روز، هفته یا ماه؛ با برنامه ثابت یا محاسبه نوبت بعد از آخرین انجام.
-- **تاریخ پایان:** بدون پایان، پایان ماه، پایان سال یا انتخاب روز دلخواه؛ مطابق تقویم ذخیره‌شده برای فعالیت.
-- **مدیریت فعالیت‌ها:** افزودن، ویرایش، حذف، ثبت انجام، بازگردانی، فیلتر فعالیت‌ها و تقویم ماهانه.
-- **یادآوری:** ساعت مقرر یا ۵، ۱۵، ۳۰ و ۶۰ دقیقه زودتر، فقط وقتی برنامه باز و در حال اجرا باشد.
-- **پشتیبان‌گیری JSON:** خروجی گرفتن و بازیابی؛ **بازیابی، اطلاعات فعلی را جایگزین می‌کند.**
-- **قابلیت نصب و کار آفلاین:** پس از بارگذاری اولیه و ذخیره موفق فایل‌های برنامه در کش مرورگر.
-- **راهنما و حمایت مالی:** بخش‌های فارسی و انگلیسی داخل برنامه.
+### امکانات اصلی در نسخه v0.2.3
 
-### راهنمای سریع استفاده
-
-1. از بالای صفحه، زبان برنامه و نوع تقویم را انتخاب کنید.
-2. روی **«فعالیت جدید»** بزنید و عنوان، دسته‌بندی، فاصله تکرار، حالت زمان‌بندی و تاریخ شروع را مشخص کنید.
-3. در صورت نیاز، تاریخ پایان را روی **بدون پایان / پایان ماه / پایان سال / تاریخ دلخواه** قرار دهید.
-4. برای یادآوری، ساعت فعالیت را تعیین کنید، گزینه یادآوری را روشن کنید و فاصله هشدار را انتخاب کنید. سپس از بخش بالای صفحه مجوز اعلان مرورگر را فعال کنید.
-5. با دکمه **«انجام شد»** سابقه ثبت کنید؛ برای دیدن فعالیت‌ها از فیلتر **همه، سررسید و آینده** استفاده کنید.
-6. از گزینه **«دریافت پشتیبان»** به‌صورت دوره‌ای فایل JSON بگیرید. در بازیابی، داده‌های فعلی با محتوای فایل جایگزین می‌شوند.
-
-**تفاوت دو حالت تکرار:** در «زمان‌بندی ثابت»، تأخیر در انجام فعالیت، تاریخ نوبت‌های آینده را تغییر نمی‌دهد. در «پس از آخرین انجام»، محاسبه نوبت بعد به ثبت انجام وابسته است. تکرارهای ماهانه برای روزهای ناموجود، از آخرین روز همان ماه استفاده می‌کنند.
-
-### محدودیت‌های مهم
-
-- اعلان‌ها تقریباً هر **۳۰ ثانیه** و هنگام بازگشت به صفحه بررسی می‌شوند؛ **با بسته‌بودن برنامه تضمین نمی‌شوند**.
-- برای اعلان، مجوز مرورگر، پشتیبانی مرورگر و بستر امن HTTPS یا localhost لازم است. حالت ذخیره نیرو یا تنظیمات سیستم می‌تواند در نمایش اعلان تأثیر بگذارد.
-- اطلاعات فعالیت‌ها فقط در حافظه همان مرورگر ذخیره می‌شوند. پاک‌شدن داده‌های سایت، تغییر دستگاه یا استفاده از مرورگر دیگر می‌تواند باعث از دست‌رفتن آن‌ها شود.
-- همگام‌سازی مستقیم با **Google Calendar**، همگام‌سازی چنددستگاهی و **Push Notification** در پس‌زمینه هنوز پیاده‌سازی نشده‌اند.
-- برای فعالیت‌های حساس مانند مصرف دارو، این برنامه نباید تنها ابزار هشدار باشد. برنامه دارویی باید مطابق دستور پزشک باقی بماند.
-
-### نصب، اجرای محلی و تست
-
-در پوشه‌ای که `index.html` قرار دارد اجرا کنید:
-
-```bash
-python -m http.server 8080
-```
-
-سپس `http://localhost:8080` را باز کنید. تست‌ها با دستور زیر اجرا می‌شوند:
-
-```bash
-node --test tests/*.cjs
-```
-
-برای انتشار روی GitHub Pages به **Settings → Pages** بروید و انتشار شاخه `main` از مسیر `/ (root)` را فعال کنید. نمونه دستورات انتشار و ساخت نسخه در [بخش انگلیسی](#publishing-updates) آمده است.
-
----
-
-## Support & Feedback
-
-**Need help, found a bug, or have a feature idea? / سؤال، باگ یا پیشنهاد دارید؟**
-
-The preferred public support channel is **GitHub Issues**. / مسیر پیشنهادی پشتیبانی عمومی **GitHub Issues** است.
-
-- **Report a bug / گزارش خطا:** `https://github.com/YOUR-USERNAME/m-calendar/issues/new`
-- **Existing issues / خطاهای ثبت‌شده:** `https://github.com/YOUR-USERNAME/m-calendar/issues`
-- **Source code / کد پروژه:** `https://github.com/YOUR-USERNAME/m-calendar`
-
-> Replace `YOUR-USERNAME` with the correct owner before publishing this README. Check that the repository is accessible and that **Issues** is enabled under repository settings. **No support email or guaranteed response time has been specified.**
-
-When reporting a bug, please include / هنگام گزارش باگ این اطلاعات را بنویسید:
-
-```text
-M Calendar version / نسخه:
-Device & OS / دستگاه و سیستم‌عامل:
-Browser & version / مرورگر و نسخه:
-Selected language / زبان انتخابی:
-Calendar (Persian/Gregorian) / تقویم:
-Steps to reproduce / مراحل بازتولید:
-Expected result / نتیجه مورد انتظار:
-Actual result / نتیجه واقعی:
-Screenshot (optional) / تصویر (اختیاری):
-```
-
-**Privacy reminder / نکته حریم خصوصی:** Never post exported backups, sensitive task descriptions, personal schedules, account credentials, or private information in public Issues. / فایل پشتیبان، برنامه‌های شخصی، اطلاعات حساس یا رمزهای عبور را در ایشوهای عمومی منتشر نکنید.
-
-### Frequently asked questions / پرسش‌های متداول
-
-**Why don't notifications appear after I close the app? / چرا بعد از بستن برنامه اعلان نمی‌آید؟**  
-Version 0.2.1 has foreground-only reminders, not server-backed Push. / در نسخه ۰٫۲٫۱ یادآوری فقط هنگام اجرای برنامه فعال است؛ سرویس پوش پس‌زمینه وجود ندارد.
-
-**Will tasks sync between my phone and computer? / آیا داده‌ها میان موبایل و کامپیوتر همگام می‌شوند؟**  
-No. Use JSON export/import to move them manually, understanding that import replaces the current tasks. / خیر. می‌توانید با پشتیبان JSON به‌صورت دستی جابه‌جا کنید؛ بازیابی، داده‌های فعلی را جایگزین می‌کند.
-
-**Can I choose Persian dates with the English interface? / می‌توانم با زبان انگلیسی از تاریخ شمسی استفاده کنم؟**  
-Yes, language and calendar selection are independent. / بله، زبان و تقویم مستقل هستند.
-
-**Is Google Calendar integration available? / اتصال به Google Calendar فعال است؟**  
-Not in v0.2.2. / خیر، هنوز در این نسخه پیاده‌سازی نشده است.
-
-**Is donating required? / حمایت مالی اجباری است؟**  
-No. The Donate tab lists voluntary public receiving addresses for Bitcoin, USDT (TRC20), EVM networks, and Solana. The app does not connect to wallets or process payments. Always verify the complete address and network before transferring; cryptocurrency transactions are generally irreversible. / خیر. بخش حمایت مالی فقط آدرس دریافت داوطلبانه را نشان می‌دهد و برنامه به کیف پول متصل نمی‌شود یا تراکنشی انجام نمی‌دهد. پیش از واریز، آدرس و شبکه را کامل بررسی کنید.
-
----
-
-## Privacy & Security / حریم خصوصی و امنیت
-
-- **No account required.** Tasks, settings and completion history are saved in browser `localStorage`; reminder deduplication state is also stored locally.
-- **No cloud task sync or backend database** is present in v0.2.2. No app-level analytics or task-data collection is implemented in this codebase.
-- Clearing website data or changing browsers/devices can erase locally saved information. Back up frequently.
-- Treat JSON backup files as sensitive: they contain task names, dates and completion history, and are **not encrypted by M Calendar**.
-- Import validates supported task fields and asks for confirmation before replacing local activities. This is not a substitute for reviewing files obtained from untrusted sources.
-- No private key, wallet authentication, crypto transaction, or payment processing is involved in the Donate tab.
-- The repository is licensed under [MIT](LICENSE). The software is provided **as is**, without warranties.
-
----
-
-## Changelog
-
-| Version | Changes |
+| قابلیت | توضیحات |
 | --- | --- |
-| **v0.2.2** | Mobile activity-list refresh fix; reset filter to All on save; touch-friendly reminder time choices; service-worker cache version update. |
-| **v0.2.0** | Optional foreground browser reminders, per-task offsets, notification permission control, reminder deduplication and tests. |
-| **v0.1.5** | Donation cards for Bitcoin, USDT/TRC20, EVM and Solana, with copy buttons and warnings. |
-| **v0.1.4** | App version display, bilingual in-app Help and Donate sections. |
-| **v0.1.3** | Optional end date and calendar-aware end-of-month/end-of-year shortcuts. |
-| **v0.1.2** | Renamed project to M Calendar (`m-calendar`). |
-| **v0.1.1** | Earlier M Calender naming and repository guidance. |
-| **v0.1.0** | Initial bilingual recurring-task PWA foundation. |
+| 🌐 فارسی و انگلیسی | تغییر زبان و جهت نمایش راست‌به‌چپ یا چپ‌به‌راست |
+| 🗓️ شمسی و میلادی | انتخاب مستقل تقویم، بدون وابستگی به زبان رابط |
+| 🔁 تکرار انعطاف‌پذیر | هر تعداد روز، هفته یا ماه؛ زمان‌بندی ثابت یا بر اساس آخرین انجام |
+| 📅 پایان فعالیت | بدون تاریخ پایان، پایان ماه، پایان سال یا تاریخ دلخواه بر اساس تقویم فعالیت |
+| ✅ پیگیری فعالیت‌ها | نمایش فعالیت‌ها، فیلتر سررسید و آینده، ثبت انجام، تاریخچه و امکان ویرایش و حذف |
+| 🔔 یادآوری | در ساعت فعالیت یا ۵، ۱۵، ۳۰ و ۶۰ دقیقه زودتر، هنگام باز و فعال‌بودن برنامه |
+| 🎨 پنج تم آرام | آبی مه‌آلود، سبز مریم‌گلی، یاسی، هلویی و تیره |
+| 📱 PWA | رابط سازگار با موبایل و دسکتاپ، امکان نصب در مرورگرهای پشتیبانی‌شده |
+| 💾 پشتیبان‌گیری | دریافت و بازیابی فایل JSON |
+| ❓ راهنما و حمایت مالی | راهنمای دو‌زبانه و حمایت مالی اختیاری درون برنامه |
 
-### Planned, not shipped / برنامه‌های آینده (هنوز منتشر نشده)
+### چطور شروع کنم؟
 
-More robust PWA updates, UI enhancements, expanded recurrence rules, Google Calendar export/sync, and server-backed background push notifications are possible future work. **No delivery dates are promised.**
+1. **[M Calendar را باز کنید](https://lanezero.github.io/M-Calender/)** و زبان و تقویم دلخواه را انتخاب کنید.
+2. روی **افزودن فعالیت** بزنید؛ نام فعالیت، تکرار، تاریخ شروع و ساعت را وارد کنید.
+3. در صورت نیاز، **تاریخ پایان** و تنظیم **یادآوری** را مشخص کنید.
+4. فعالیت‌ها را در فهرست یا تقویم ببینید و پس از انجام هر نوبت روی **انجام شد** بزنید.
+5. برای محافظت از اطلاعات، به‌صورت دوره‌ای **پشتیبان JSON** بگیرید.
+
+**مثال:** فعالیتی با شروع روز ۶ و تکرار هر ۲ روز، در روزهای ۶، ۸، ۱۰ و ... برنامه‌ریزی می‌شود. در حالت «پس از آخرین انجام»، تاریخ نوبت بعد از تاریخ ثبت انجام محاسبه می‌شود. برای برنامه‌های دارویی، زمان‌بندی را مطابق توصیه پزشک نگه دارید.
+
+### نصب روی موبایل و دسکتاپ
+
+- **Android:** برنامه را در مرورگر پشتیبانی‌شده باز کنید و از منوی مرورگر گزینه **Install app** یا **Add to Home screen** را انتخاب کنید، اگر موجود باشد.
+- **iPhone/iPad:** آدرس را در **Safari** باز کنید و از منوی اشتراک‌گذاری گزینه **Add to Home Screen** را انتخاب کنید، در صورت پشتیبانی دستگاه.
+- **Desktop:** در مرورگر پشتیبانی‌شده گزینه نصب برنامه را انتخاب کنید، اگر نمایش داده شد.
+
+پس از بارگذاری و ذخیره موفق فایل‌های برنامه، بخش‌هایی از آن می‌توانند آفلاین کار کنند؛ نصب و رفتار آفلاین به مرورگر و دستگاه بستگی دارد.
+
+### نکات مهم درباره یادآوری‌ها
+
+> **اعلان زمان‌بندی‌شده در v0.2.3 فقط زمانی بررسی می‌شود که صفحه یا برنامه باز و فعال باشد.** هنگام بسته‌بودن یا تعلیق برنامه، تحویل اعلان تضمین نمی‌شود. اعلان‌ها جایگزین ساعت هشدار مطمئن، به‌ویژه برای دارو و امور حساس، نیستند.
+
+برای دریافت اعلان باید مجوز مرورگر را فعال کنید و تنظیمات اعلان سیستم‌عامل نیز اجازه نمایش بدهند. می‌توانید از دکمه **ارسال اعلان آزمایشی** در برنامه استفاده کنید. همگام‌سازی با Google Calendar، ارسال Push در پس‌زمینه و همگام‌سازی خودکار بین دستگاه‌ها هنوز ارائه نشده‌اند.
+
+### حریم خصوصی و اطلاعات کاربر
+
+- فعالیت‌ها، تنظیمات و تاریخچه انجام در **حافظه محلی مرورگر** ذخیره می‌شوند؛ حساب کاربری لازم نیست.
+- برنامه در این نسخه **همگام‌سازی ابری اطلاعات فعالیت‌ها** ندارد.
+- پاک‌شدن داده‌های مرورگر، تعویض دستگاه یا مرورگر ممکن است باعث از دست‌رفتن اطلاعات شود.
+- فایل پشتیبان JSON شامل اطلاعات فعالیت‌هاست و **رمزگذاری‌شده نیست**؛ آن را خصوصی نگه دارید.
+- **بازیابی فایل پشتیبان، اطلاعات فعالیت‌های فعلی را جایگزین می‌کند.**
+- بخش Donate فقط آدرس دریافت کمک اختیاری را نمایش می‌دهد؛ برنامه به کیف پول متصل نمی‌شود و پرداخت انجام نمی‌دهد.
+
+### نسخه فعلی و تغییرات
+
+**آخرین نسخه مستندشده: v0.2.3**
+
+- **v0.2.3:** پنج تم آرام، شعار جدید، بهبود چیدمان موبایل و خوانایی کنترل‌ها.
+- **v0.2.2:** اصلاح منطق سررسید و ثبت انجام، تازه‌سازی فهرست و بهبود مسیر نمایش اعلان.
+- **v0.2.1:** اصلاح کنترل‌های لمسی زمان یادآوری و نمایش فعالیت تازه‌افزوده‌شده.
+- **v0.2.0:** اضافه‌شدن تنظیمات یادآوری بر اساس ساعت.
+
+[مشاهده تغییرات کامل](CHANGELOG.md) · [نسخه‌های منتشرشده در GitHub](https://github.com/LaneZero/M-Calender/releases)
 
 ---
 
-<div align="center">
+<a id="english"></a>
+## 🇬🇧 English
 
-**M Calendar · v0.2.2 · MIT License**  
-Built for simple, repeatable routines. / ساخته‌شده برای مدیریت ساده فعالیت‌های تکراری.
+### About
 
-</div>
+**M Calendar** is a lightweight recurring activity planner for everyday routines, such as studying, exercise, personal tasks, and supplements. Set a schedule, review upcoming occurrences, and track completions in one place. No account is required.
 
+**[Open M Calendar](https://lanezero.github.io/M-Calender/)**
 
-## v0.2.2 Hotfix / اصلاحات مهم
+### Features in v0.2.3
 
-- After saving, the view switches to Activities / All, shows a visible confirmation, and scrolls to the saved task.
-- Due **today** is not labeled overdue; missed occurrences are distinguished from today's tasks.
-- Mark done records the latest actionable occurrence, then updates the card and status visibly. Past older skipped occurrences no longer trap the task in an indefinitely overdue state.
-- Foreground notification delivery prefers `ServiceWorkerRegistration.showNotification()` (especially on mobile); a Test notification button checks actual delivery.
-- Reminders still **require the app to be open and running**. This version does not include a push server.
-- Browser notification permissions require HTTPS or localhost. Firefox / Chrome permissions can be blocked in the browser or by the OS. Safari iOS has additional Home Screen restrictions.
-- Before updating, export a JSON backup. Storage key is unchanged and existing data are preserved.
+| Feature | Details |
+| --- | --- |
+| 🌍 Bilingual interface | Persian and English, with RTL/LTR support |
+| 🗓️ Two calendar systems | Solar Hijri (Jalali) and Gregorian, independent of language |
+| 🔁 Flexible recurrence | Every N days, weeks, or months; fixed or completion-based scheduling |
+| 📆 End dates | None, end of month, end of year, or custom date in the task's calendar |
+| ✅ Task tracking | Activity list, due/upcoming filters, calendar, completion history, edit and delete |
+| 🔔 Reminders | At task time or 5, 15, 30, or 60 minutes before, while the app is open and running |
+| 🎨 Calm themes | Misty Blue, Sage, Lavender, Peach, and Midnight |
+| 📱 Installable PWA | Mobile-friendly experience, with offline support after successful caching |
+| 💾 Backup and restore | Export and import JSON backup files |
+| ❓ Help and Donate | Bilingual help and optional donation information |
 
-### Quick test matrix
+### Getting started
 
-1. Save a task with the All/Due/Upcoming filter selected; it should appear immediately in All.
-2. Create a task starting today; its badge should read Today, not Overdue.
-3. Create a task with an earlier start, mark done; status should update and Undo should restore the previous status.
-4. Enable notifications, click Test notification in Chrome/Firefox desktop and Android browser; accept permission and check browser and OS settings if absent.
-5. Reload, switch fa/en and Persian/Gregorian, then export and import test data.
+1. **[Open M Calendar](https://lanezero.github.io/M-Calender/)** and select your preferred language and calendar.
+2. Select **Add activity**, then set its title, recurrence, start date, and time.
+3. Choose an optional end date and reminder preference.
+4. View your activities and tap **Mark done** to record completions.
+5. Export a **JSON backup** regularly to avoid accidental data loss.
 
-### Git commands
+For example, a fixed recurrence every two days beginning on the 6th produces occurrences on the 6th, 8th, 10th, and so on. Completion-based recurrence instead calculates future occurrences relative to the recorded completion. For medication, follow the prescribed schedule.
 
-```bash
-git add .
-git commit -m "fix: repair task refresh, due status and mobile notifications v0.2.2"
-git push origin main
-git tag -a v0.2.2 -m "M Calendar v0.2.2"
-git push origin v0.2.2
-# Optional if GitHub CLI is installed and authenticated:
-gh release create v0.2.2 --title "M Calendar v0.2.2" --generate-notes
-```
+### Install
+
+- **Android:** Use **Install app** or **Add to Home screen** from a supported browser if available.
+- **iPhone/iPad:** Open the app in **Safari** and choose **Add to Home Screen** when supported.
+- **Desktop:** Use your browser's app-install option when available.
+
+Offline operation depends on successful initial loading/caching and browser support.
+
+### Important reminder limitations
+
+> **Scheduled reminders in v0.2.3 require the app/page to remain open and running.** They are not guaranteed while the app is closed, suspended, or unable to display system notifications. They must not be the sole reminder for medication or other safety-critical tasks.
+
+Allow browser notification permissions and check OS settings; use the in-app **Test notification** control. Background Push, Google Calendar integration, and cross-device automatic syncing are **not yet available**.
+
+### Privacy and data
+
+- Tasks, settings, and completion history are kept in local browser storage; no account is needed.
+- This release has no cloud task synchronization.
+- Clearing site data or switching browsers/devices may erase or hide stored tasks.
+- JSON backups include personal activity details and are **not encrypted**.
+- **Importing a backup replaces the existing local task collection.**
+- Donate displays optional receiving addresses only; the app does not connect to wallets or process payments.
+
+### Release information
+
+**Documented application version: v0.2.3.** This version adds five calm color themes, an updated tagline, and mobile layout improvements. See [CHANGELOG.md](CHANGELOG.md) and [GitHub Releases](https://github.com/LaneZero/M-Calender/releases).
+
+---
+
+<a id="support--پشتیبانی"></a>
+## 🛟 Support / پشتیبانی
+
+Need help, spotted a bug, or have an idea? / سؤالی دارید، باگی پیدا کرده‌اید یا پیشنهادی برای بهترشدن برنامه دارید؟
+
+- **🐛 Report a bug / گزارش باگ:** [Open a new issue](https://github.com/LaneZero/M-Calender/issues/new)
+- **💡 Suggest a feature / پیشنهاد قابلیت:** [Create an issue](https://github.com/LaneZero/M-Calender/issues/new)
+- **📋 Existing reports / گزارش‌های قبلی:** [GitHub Issues](https://github.com/LaneZero/M-Calender/issues)
+- **🔗 Project / پروژه:** [LaneZero/M-Calender](https://github.com/LaneZero/M-Calender)
+
+**For faster troubleshooting, include / برای بررسی سریع‌تر این موارد را بنویسید:**
+
+- App version / نسخه برنامه
+- Device and operating system / دستگاه و سیستم‌عامل
+- Browser and version / مرورگر و نسخه آن
+- Selected language and calendar / زبان و تقویم انتخابی
+- Steps to reproduce / مراحل بازتولید مشکل
+- Expected versus actual result / نتیجه مورد انتظار و نتیجه واقعی
+- Screenshot, if helpful / تصویر در صورت نیاز
+
+**Privacy reminder / یادآوری حریم خصوصی:** Never post personal schedules, medical information, wallet secrets, or JSON backups in public issues. / اطلاعات شخصی، جزئیات پزشکی، کلید کیف پول یا فایل پشتیبان را در ایشوهای عمومی ارسال نکنید.
+
+Support is community/project-based; no guaranteed response time is advertised. / پشتیبانی از طریق مخزن پروژه انجام می‌شود و زمان پاسخ‌گویی تضمین‌شده‌ای اعلام نشده است.
+
+---
+
+## ❤️ Support development / حمایت از توسعه
+
+M Calendar is free. If it is useful to you, you can support its development through the **Donate** tab in the app. Supported receiving networks listed there include Bitcoin, USDT on TRC20, Ethereum/BNB Smart Chain/Polygon (EVM), and Solana. Donations are optional; always verify the receiving address and exact network before transferring cryptocurrency, since transactions are generally irreversible.
+
+M Calendar رایگان است. اگر برایتان مفید بوده، از تب **Donate** می‌توانید به‌صورت داوطلبانه از توسعه آن حمایت کنید. پیش از هر انتقال رمزارز، شبکه و آدرس کامل را بررسی کنید.
+
+---
+
+## 📄 License / مجوز
+
+M Calendar is distributed under the **[MIT License](LICENSE)**. Developed and maintained as an open-source project by **[LaneZero](https://github.com/LaneZero)**.
+
+M Calendar با مجوز متن‌باز **MIT** منتشر می‌شود. توسعه و نگهداری پروژه: **LaneZero**.
