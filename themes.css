@@ -1,0 +1,107 @@
+/* M Calendar v0.2.3: Calm themes, with mobile-first layout improvements.
+   Brand-specific wallet colors are intentionally preserved. */
+:root[data-theme="mist"]{--page:#f1f7f9;--surface:#ffffff;--raised:#f6fafb;--soft:#e9f2f6;--field:#f3f8fa;--text:#203b4a;--muted:#4a6575;--border:#ccdde4;--accent:#446f88;--accent-hover:#315b72;--accent-text:#fff;--focus:#236c95;--due-bg:#fbefdb;--due-text:#815423;--done-bg:#ddf1e6;--done-text:#23624b;--success-bg:#e1f4ea;--success-border:#71ab95;--success-text:#225e47;--hover:#dceaf0;--active:#d5e9f3;--backdrop:#263b4e99}
+:root[data-theme="sage"]{--page:#f1f6f0;--surface:#ffffff;--raised:#f7faf5;--soft:#e9f1e9;--field:#f3f8f1;--text:#29443a;--muted:#506b60;--border:#d0dfd3;--accent:#497b66;--accent-hover:#315d4d;--accent-text:#fff;--focus:#357661;--due-bg:#fbefd9;--due-text:#795522;--done-bg:#dcefe3;--done-text:#235e42;--success-bg:#e2f2e6;--success-border:#81ab8b;--success-text:#276345;--hover:#dcebe0;--active:#d3e8d9;--backdrop:#243a3099}
+:root[data-theme="lavender"]{--page:#f6f3fb;--surface:#ffffff;--raised:#faf8fe;--soft:#efebf8;--field:#f8f6fc;--text:#3e3658;--muted:#625b7a;--border:#ded7ed;--accent:#74669b;--accent-hover:#5d4f85;--accent-text:#fff;--focus:#7768a6;--due-bg:#faeedc;--due-text:#765125;--done-bg:#e4f0e8;--done-text:#286347;--success-bg:#e5f3e9;--success-border:#87ac94;--success-text:#285a40;--hover:#e9e2f5;--active:#e2daf3;--backdrop:#30274199}
+:root[data-theme="peach"]{--page:#fcf5f1;--surface:#fffefd;--raised:#fff9f6;--soft:#f8eae2;--field:#fff8f4;--text:#594036;--muted:#7b6257;--border:#ecd8cc;--accent:#a36552;--accent-hover:#854a3a;--accent-text:#fff;--focus:#a45b47;--due-bg:#f9ead5;--due-text:#805220;--done-bg:#e4f2e6;--done-text:#2a6247;--success-bg:#e4f3e9;--success-border:#83ad95;--success-text:#245c42;--hover:#f5e2d8;--active:#f3dbd0;--backdrop:#432f2699}
+:root[data-theme="mist"],:root[data-theme="sage"],:root[data-theme="lavender"],:root[data-theme="peach"]{color-scheme:light;color:var(--text);background:var(--page)}
+:root[data-theme="midnight"]{color-scheme:dark;background:#0b1220}
+:root[data-theme]:not([data-theme="midnight"]) body{background:var(--page);color:var(--text)}
+:root[data-theme]:not([data-theme="midnight"]) .brand small,
+:root[data-theme]:not([data-theme="midnight"]) .hero p,
+:root[data-theme]:not([data-theme="midnight"]) .task p,
+:root[data-theme]:not([data-theme="midnight"]) .hint,
+:root[data-theme]:not([data-theme="midnight"]) .info-lead,
+:root[data-theme]:not([data-theme="midnight"]) .info-item p,
+:root[data-theme]:not([data-theme="midnight"]) .info-note,
+:root[data-theme]:not([data-theme="midnight"]) .donate-thanks,
+:root[data-theme]:not([data-theme="midnight"]) .wallet-title p,
+:root[data-theme]:not([data-theme="midnight"]) .empty,
+:root[data-theme]:not([data-theme="midnight"]) .stat span,
+:root[data-theme]:not([data-theme="midnight"]) footer,
+:root[data-theme]:not([data-theme="midnight"]) .weekdays,
+:root[data-theme]:not([data-theme="midnight"]) #task-form label,
+:root[data-theme]:not([data-theme="midnight"]) .reminder-offset-label,
+:root[data-theme]:not([data-theme="midnight"]) .settings label{color:var(--muted)}
+:root[data-theme]:not([data-theme="midnight"]) .mark{color:var(--accent)}
+:root[data-theme]:not([data-theme="midnight"]) .stat,
+:root[data-theme]:not([data-theme="midnight"]) .panel,
+:root[data-theme]:not([data-theme="midnight"]) dialog{background:var(--surface);color:var(--text);border-color:var(--border)}
+:root[data-theme]:not([data-theme="midnight"]) .task,
+:root[data-theme]:not([data-theme="midnight"]) .wallet-card,
+:root[data-theme]:not([data-theme="midnight"]) .info-item{background:var(--raised);border-color:var(--border)}
+:root[data-theme]:not([data-theme="midnight"]) select,
+:root[data-theme]:not([data-theme="midnight"]) input,
+:root[data-theme]:not([data-theme="midnight"]) select option,
+:root[data-theme]:not([data-theme="midnight"]) .date-picker-button,
+:root[data-theme]:not([data-theme="midnight"]) .reminder-choice,
+:root[data-theme]:not([data-theme="midnight"]) .icon-button,
+:root[data-theme]:not([data-theme="midnight"]) .picker-heading button{background:var(--field);color:var(--text);border-color:var(--border)}
+:root[data-theme]:not([data-theme="midnight"]) .primary{background:var(--accent);color:var(--accent-text)}
+:root[data-theme]:not([data-theme="midnight"]) .primary:hover{background:var(--accent-hover)}
+:root[data-theme]:not([data-theme="midnight"]) .secondary,
+:root[data-theme]:not([data-theme="midnight"]) .nav-button:hover{background:var(--soft);color:var(--text);border-color:var(--border)}
+:root[data-theme]:not([data-theme="midnight"]) .secondary:hover{background:var(--hover)}
+:root[data-theme]:not([data-theme="midnight"]) .nav-button{color:var(--muted)}
+:root[data-theme]:not([data-theme="midnight"]) .nav-button.selected{background:var(--active);border-color:var(--accent);color:var(--text)}
+:root[data-theme]:not([data-theme="midnight"]) .app-nav{border-color:var(--border)}
+:root[data-theme]:not([data-theme="midnight"]) .badge{background:var(--soft);color:var(--text)}
+:root[data-theme]:not([data-theme="midnight"]) .badge.due{background:var(--due-bg);color:var(--due-text)}
+:root[data-theme]:not([data-theme="midnight"]) .badge.done{background:var(--done-bg);color:var(--done-text)}
+:root[data-theme]:not([data-theme="midnight"]) .day{background:var(--field);color:var(--text)}
+:root[data-theme]:not([data-theme="midnight"]) .day.today{border-color:var(--accent)}
+:root[data-theme]:not([data-theme="midnight"]) .day.active{background:var(--active);border-color:var(--accent)}
+:root[data-theme]:not([data-theme="midnight"]) .day.has-task:after{background:var(--accent)}
+:root[data-theme]:not([data-theme="midnight"]) .date-picker,
+:root[data-theme]:not([data-theme="midnight"]) .reminder-editor,
+:root[data-theme]:not([data-theme="midnight"]) .info-note{background:var(--raised);border-color:var(--border)}
+:root[data-theme]:not([data-theme="midnight"]) .reminder-choice:has(input:checked),
+:root[data-theme]:not([data-theme="midnight"]) .end-presets button[aria-pressed="true"]{background:var(--active);border-color:var(--accent);color:var(--text)}
+:root[data-theme]:not([data-theme="midnight"]) .reminder-toggle input,
+:root[data-theme]:not([data-theme="midnight"]) .reminder-choice input{accent-color:var(--accent)}
+:root[data-theme]:not([data-theme="midnight"]) .wallet-address{background:var(--soft);border-color:var(--border);color:var(--text)}
+:root[data-theme]:not([data-theme="midnight"]) .action-feedback{background:var(--success-bg);border-color:var(--success-border);color:var(--success-text)}
+:root[data-theme]:not([data-theme="midnight"]) dialog::backdrop{background:var(--backdrop)}
+:root[data-theme]:not([data-theme="midnight"]) .info-note{border-inline-start:3px solid var(--accent)}
+:root[data-theme]:not([data-theme="midnight"]) .donation-warning{border-inline-start-color:#b97934}
+:root[data-theme]:not([data-theme="midnight"]) button:focus-visible,
+:root[data-theme]:not([data-theme="midnight"]) input:focus-visible,
+:root[data-theme]:not([data-theme="midnight"]) select:focus-visible{outline-color:var(--focus)}
+/* Selector is a native button group, not a fake dropdown. */
+.theme-fieldset{border:0;margin:0;padding:0;min-width:0;display:grid;gap:7px}
+.theme-fieldset legend{padding:0 0 6px;font-size:.77rem;color:inherit}
+.theme-picker{display:flex;align-items:center;gap:7px;min-height:42px}
+.theme-swatch{display:grid;place-items:center;width:34px;height:34px;min-width:34px;border-radius:50%;background:var(--swatch);border:3px solid transparent;box-shadow:0 0 0 1px #8194a277;position:relative;transition:transform .12s ease,box-shadow .12s ease}
+.theme-swatch:hover{transform:scale(1.08)}
+.theme-swatch[aria-pressed="true"]{box-shadow:0 0 0 2px currentColor,0 0 0 5px transparent}
+.theme-swatch[aria-pressed="true"]:after{content:'✓';font-size:16px;font-weight:800;color:#263a42;text-shadow:0 1px 2px #ffffffaa}
+.theme-swatch-night[aria-pressed="true"]:after{color:#fff;text-shadow:none}
+.theme-swatch:focus-visible{outline:3px solid #3d8dbe;outline-offset:4px}
+/* Responsive adjustments for controls, calendar and long translated labels. */
+.shell{padding-inline:clamp(12px,2.7vw,24px)}
+.top{align-items:center;flex-wrap:wrap;row-gap:16px}
+.settings{flex-wrap:wrap;justify-content:flex-end;gap:12px 16px}
+.settings label{min-width:135px}
+.settings select{width:100%;min-height:44px}
+.hero{gap:14px}.hero .primary{min-height:46px}
+.task-top{gap:12px}.task-top h3{overflow-wrap:anywhere}
+.task-actions button,.nav-button,.day,.icon-button{min-height:44px}
+.day.outside{opacity:.48}
+@media(max-width:760px){
+ .brand strong{font-size:1.2rem}.settings{justify-content:flex-start;width:100%}.settings label{flex:1 1 140px}
+ .theme-fieldset{width:100%}.theme-picker{gap:13px}.theme-swatch{width:38px;height:38px}
+ .hero{margin-top:22px;flex-wrap:wrap}.hero>div{flex:1 1 220px}.hero .primary{flex:0 0 auto}
+ .task-actions{gap:8px}.task-actions button{flex:1 1 95px}
+ .month-actions{width:100%;justify-content:space-between}.section-heading{row-gap:12px}
+ .calendar-grid{gap:5px}.day{min-height:44px}
+}
+@media(max-width:390px){
+ .hero .primary{width:100%}.hero{align-items:stretch}
+ .stat{padding:10px}.stat span{font-size:.73rem}.stat strong{font-size:1.2rem}
+ .settings label{flex-basis:100%}
+ .task-top{flex-wrap:wrap}.task-top .badge{margin-inline-start:auto}
+}
+@media(prefers-reduced-motion:reduce){.theme-swatch{transition:none}.theme-swatch:hover{transform:none}}
+
+/* Make the appearance control consistent in all themes. */
+:root[data-theme]:not([data-theme="midnight"]) .settings-panel[open] .settings,:root[data-theme]:not([data-theme="midnight"]) .settings-panel summary{background:var(--surface);color:var(--text);border-color:var(--border)}
