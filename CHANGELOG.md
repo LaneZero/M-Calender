@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.6
+- Document tested iPhone Home Screen installation and test-notification steps in Persian and English.
+- Add the same setup instructions to the in-app Help tab.
+- Clarify that successful test notification delivery does not establish background reminder support.
+- Correct the historical v0.2.4 entry in the public README.
+
 ## v0.2.5
 - Move theme selection into a compact, accessible Settings panel with language and calendar preferences.
 - Use branded, localized notification content with activity name and category emojis.

@@ -17,7 +17,7 @@
 
 </div>
 
-[![Version](https://img.shields.io/badge/version-v0.2.5-607e97?style=flat-square)](https://github.com/LaneZero/M-Calender/releases)
+[![Version](https://img.shields.io/badge/version-v0.2.6-607e97?style=flat-square)](https://github.com/LaneZero/M-Calender/releases)
 [![Languages](https://img.shields.io/badge/languages-FA%20%7C%20EN-7494a7?style=flat-square)](https://github.com/LaneZero/M-Calender)
 [![Calendars](https://img.shields.io/badge/calendars-Jalali%20%7C%20Gregorian-6b927b?style=flat-square)](https://github.com/LaneZero/M-Calender)
 [![License: MIT](https://img.shields.io/badge/license-MIT-8076a7?style=flat-square)](LICENSE)
@@ -41,7 +41,7 @@
 
 **[ورود به برنامه](https://lanezero.github.io/M-Calender/)**
 
-### امکانات اصلی در نسخه v0.2.5
+### امکانات اصلی در نسخه v0.2.6
 
 | قابلیت | توضیحات |
 | --- | --- |
@@ -71,9 +71,20 @@
 - **iPhone / iPad:** در **Safari** گزینه **Add to Home Screen** را انتخاب کنید.
 - **Desktop:** اگر مرورگر دکمه نصب را نمایش می‌دهد، برنامه را نصب کنید.
 
+### فعال‌سازی اعلان آزمایشی در آیفون (iOS 16.4+)
+
+1. سایت **[M Calendar](https://lanezero.github.io/M-Calender/)** را با **Safari** باز کنید.
+2. روی دکمه **Share (اشتراک‌گذاری)** بزنید و **Add to Home Screen (افزودن به صفحه اصلی)** را انتخاب کنید.
+3. برنامه را **از آیکن اضافه‌شده به Home Screen** اجرا کنید، نه از تب عادی Safari.
+4. داخل M Calendar روی دکمه **فعال‌سازی اعلان** بزنید و درخواست مجوز را با **Allow** تأیید کنید.
+5. دکمه **ارسال اعلان آزمایشی** را بزنید. در صورت دریافت، مسیر اعلان آزمایشی درست کار می‌کند.
+6. اگر اعلان دیده نشد، بخش **Settings → Notifications** آیفون و حالت **Focus / Do Not Disturb** را بررسی کنید.
+
+> **تست واقعی:** دریافت اعلان آزمایشی روی آیفون پس از افزودن M Calendar به Home Screen توسط کاربر پروژه تأیید شده است. این نتیجه فقط دریافت **اعلان آزمایشی** را تأیید می‌کند، نه اجرای یادآوری در زمان بسته‌بودن برنامه.
+
 ### نکات مهم درباره یادآوری‌ها
 
-> اعلان‌های زمان‌بندی‌شده در نسخه **v0.2.5** فقط وقتی بررسی می‌شوند که برنامه باز و فعال باشد. هنگام بسته‌بودن یا تعلیق برنامه، تحویل اعلان تضمین نمی‌شود. برای دارو یا موارد حساس، فقط به این اعلان‌ها تکیه نکنید.
+> اعلان‌های زمان‌بندی‌شده در نسخه **v0.2.6** فقط وقتی بررسی می‌شوند که برنامه باز و فعال باشد. هنگام بسته‌بودن یا تعلیق برنامه، تحویل اعلان تضمین نمی‌شود. برای دارو یا موارد حساس، فقط به این اعلان‌ها تکیه نکنید.
 
 ### حریم خصوصی و داده‌ها
 
@@ -85,11 +96,12 @@
 
 ### نسخه فعلی
 
-**آخرین نسخه مستندشده: v0.2.5**
+**آخرین نسخه مستندشده: v0.2.6**
 
+- **v0.2.6:** آموزش مرحله‌به‌مرحله فعال‌سازی اعلان آزمایشی در آیفون در README و راهنمای داخل برنامه.
 - **v0.2.5:** بازطراحی محل انتخاب رنگ، اعلان با نام فعالیت و ایموجی مناسب، بررسی مجوز و آماده‌بودن Service Worker، راهنمای آیفون.
 
-- **v0.2.5:** آیکن جدید برنامه، فونت فارسی Vazirmatn، بهبود README و راست‌چین‌شدن بخش‌های فارسی.
+- **v0.2.4:** آیکن جدید برنامه، فونت فارسی Vazirmatn، بهبود README و راست‌چین‌شدن بخش‌های فارسی.
 - **v0.2.3:** پنج تم آرام، شعار جدید و بهبود UI/UX موبایل.
 - **v0.2.2:** اصلاح منطق سررسید و ثبت انجام، و بهبود مسیر اعلان.
 - **v0.2.1:** بهبود نمایش فعالیت تازه و کنترل‌های یادآوری.
@@ -110,7 +122,7 @@
 
 **[Open M Calendar](https://lanezero.github.io/M-Calender/)**
 
-### Features in v0.2.5
+### Features in v0.2.6
 
 | Feature | Details |
 | --- | --- |
@@ -140,9 +152,20 @@
 - **iPhone / iPad:** Open in **Safari** and choose **Add to Home Screen**.
 - **Desktop:** Install the app if your browser offers an install option.
 
+### Enable test notifications on iPhone (iOS 16.4+)
+
+1. Open **[M Calendar](https://lanezero.github.io/M-Calender/)** in **Safari**.
+2. Tap **Share → Add to Home Screen**.
+3. Launch the installed app using its **Home Screen icon**, not a regular Safari tab.
+4. In M Calendar, tap **Enable notifications** and select **Allow**.
+5. Tap **Test notification** to verify that notification delivery works.
+6. If no notification appears, check **iOS Settings → Notifications** and **Focus / Do Not Disturb**.
+
+> **Real-device observation:** The project's user confirmed receiving a test notification on iPhone after installing M Calendar to the Home Screen. This does **not** verify scheduled background delivery.
+
 ### Reminder limitations
 
-> Scheduled reminders in **v0.2.5** are checked only while the app remains open and active. Delivery is not guaranteed while the app is closed or suspended. Do not rely on them as the only reminder for medication or other critical tasks.
+> Scheduled reminders in **v0.2.6** are checked only while the app remains open and active. Delivery is not guaranteed while the app is closed or suspended. Do not rely on them as the only reminder for medication or other critical tasks.
 
 ### Privacy and data
 
@@ -154,7 +177,7 @@
 
 ### Release information
 
-**Documented application version: v0.2.5.**
+**Documented application version: v0.2.6.**
 
 This release moves theme selection into Settings, improves notification titles with activity names and category emojis, and adds iPhone-specific guidance and active Service Worker checks. See [CHANGELOG.md](CHANGELOG.md) and [GitHub Releases](https://github.com/LaneZero/M-Calender/releases).
 

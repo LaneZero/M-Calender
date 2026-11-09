@@ -1,9 +1,9 @@
 import { reminderTimestamp, shouldDispatch, markDispatched, recentDispatches } from './reminders.js';
-// M Calendar v0.2.5: no external dependencies, no accounts, no network storage.
+// M Calendar v0.2.6: no external dependencies, no accounts, no network storage.
 const $ = id => document.getElementById(id);
 // Retain the old storage key so existing users keep their tasks after rebranding.
 const STORAGE = 'ritmo-data-v1';
-const APP_VERSION = 'v0.2.5';
+const APP_VERSION = 'v0.2.6';
 let activeView = 'tasks';
 const today = () => localISO(new Date());
 function localISO(date) { return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; }
@@ -112,7 +112,8 @@ const helpCopy = {
   ['۴. تعیین تاریخ پایان','فعالیت می‌تواند بدون پایان باشد یا تا پایان ماه، تا پایان سال یا تا تاریخ دلخواه ادامه پیدا کند. محاسبه بر اساس تقویم فعالیت است.'],
   ['۵. ثبت و مشاهده','«انجام شد» را بزن تا سابقه ثبت شود. از تقویم برای دیدن روزهای دارای فعالیت و از فیلترها برای نمایش سررسیدها استفاده کن.'],
   ['۶. تغییر زبان و تقویم','از بالای صفحه زبان فارسی/انگلیسی و نمایش تاریخ شمسی/میلادی را مستقل از یکدیگر انتخاب کن.'],
-  ['۷. نگهداری اطلاعات','از «دریافت پشتیبان» فایل JSON بگیر و با «بازیابی پشتیبان» برگردان. بازیابی، داده‌های فعلی را جایگزین می‌کند.']
+  ['۷. نصب و فعال‌سازی اعلان در آیفون','۱) در Safari وارد https://lanezero.github.io/M-Calender/ شو. ۲) از Share / اشتراک‌گذاری، Add to Home Screen / افزودن به صفحه اصلی را انتخاب کن. ۳) برنامه را از آیکن Home Screen باز کن، نه از تب معمولی Safari. ۴) در برنامه روی «فعال‌سازی اعلان» بزن و Allow / اجازه‌دادن را انتخاب کن. ۵) دکمه «ارسال اعلان آزمایشی» را بزن. اگر اعلان ظاهر نشد، تنظیمات Notifications آیفون و حالت Focus را بررسی کن. iOS 16.4 یا جدیدتر لازم است.'],
+  ['۸. نگهداری اطلاعات','از «دریافت پشتیبان» فایل JSON بگیر و با «بازیابی پشتیبان» برگردان. بازیابی، داده‌های فعلی را جایگزین می‌کند.']
  ],
  en: [
   ['1. Add an activity','Select “New task”, then enter a name, category, start date and optional time.'],
@@ -121,7 +122,8 @@ const helpCopy = {
   ['4. Set an end date','Choose no end date, end of month, end of year or a custom date. The activity’s calendar controls the calculation.'],
   ['5. Track your progress','Use “Mark done” to record a completion. Use the calendar to view scheduled days and the filters to find due activities.'],
   ['6. Switch language and calendar','Choose Persian/English language and Solar Hijri/Gregorian calendar independently in the header.'],
-  ['7. Back up your data','Use “Export backup” to save a JSON file, or “Import backup” to restore it. Import replaces current data.']
+  ['7. Enable notifications on iPhone','1) Open https://lanezero.github.io/M-Calender/ in Safari. 2) Tap Share and Add to Home Screen. 3) Launch M Calendar from its Home Screen icon, not the normal Safari tab. 4) Tap Enable notifications and choose Allow. 5) Tap Test notification. If nothing appears, check iOS Settings → Notifications and Focus. Requires iOS 16.4 or later.'],
+  ['8. Back up your data','Use “Export backup” to save a JSON file, or “Import backup” to restore it. Import replaces current data.']
  ]
 };
 // Donation destinations are public, user-provided receiving addresses.
@@ -159,8 +161,8 @@ $('donate-details').addEventListener('click',async e=>{
  catch{button.closest('.wallet-card').querySelector('.wallet-address').focus();alert(donateText[state.lang].copyFail);}
 });
 const helpWarnings={
- fa:['حریم خصوصی: اطلاعات فقط در حافظه همین مرورگر هستند. پاک‌کردن داده‌های سایت یا تغییر دستگاه می‌تواند آن‌ها را از بین ببرد؛ مرتب نسخه پشتیبان بگیر.','اعلان مرورگر فقط هنگام اجرای برنامه بررسی می‌شود. در زمان بسته‌بودن برنامه، اعلان تضمین نمی‌شود؛ اتصال مستقیم به Google Calendar هنوز وجود ندارد.','برای زمان‌بندی مصرف دارو، همواره دستور پزشک را ملاک قرار بده و زمان مصرف را خودسرانه تغییر نده.'],
- en:['Privacy: data is saved only in this browser. Clearing site data or changing devices can erase it; export backups regularly.','Reminders are checked only while the app is running. Background delivery is not supported; Google Calendar sync is not yet available.','For medication schedules, follow your clinician’s instructions and do not independently shift prescribed doses.']
+ fa:['حریم خصوصی: اطلاعات فقط در حافظه همین مرورگر هستند. پاک‌کردن داده‌های سایت یا تغییر دستگاه می‌تواند آن‌ها را از بین ببرد؛ مرتب نسخه پشتیبان بگیر.','اعلان آزمایشی آیفون پس از نصب روی Home Screen قابل دریافت است؛ اما یادآوری‌های زمان‌بندی‌شده فقط هنگام اجرای برنامه بررسی می‌شوند و در حالت بسته یا تعلیق تضمین ندارند. اتصال Google Calendar هنوز ارائه نشده است.','برای زمان‌بندی مصرف دارو، همواره دستور پزشک را ملاک قرار بده و زمان مصرف را خودسرانه تغییر نده.'],
+ en:['Privacy: data is saved only in this browser. Clearing site data or changing devices can erase it; export backups regularly.','iPhone test notifications can work after Home Screen installation, but scheduled reminders are checked only while the app runs; delivery when closed or suspended is not guaranteed. Google Calendar sync is not yet available.','For medication schedules, follow your clinician’s instructions and do not independently shift prescribed doses.']
 };
 function renderInformation(){
  $('app-version').textContent=APP_VERSION;
